@@ -47,7 +47,7 @@ namespace ClinicBookingSystem_Service.Service
                 if( user!=null &&  user.Password == request.Password)
                 {
                     var response = await GetJwtTokenAsync(user);
-                    return new BaseResponse<LoginResponse>("User not found", StatusCodeEnum.OK_200, response);
+                    return new BaseResponse<LoginResponse>("Succesfully", StatusCodeEnum.OK_200, response);
 
                 }
                 return new BaseResponse<LoginResponse>("User not found", StatusCodeEnum.BadRequest_400);

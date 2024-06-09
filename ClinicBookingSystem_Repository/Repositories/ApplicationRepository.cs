@@ -8,9 +8,9 @@ namespace ClinicBookingSystem_Repository.Repositories;
 
 public class ApplicationRepository : BaseRepository<Application>, IApplicationRepository
 {
-    private readonly ApplicationDAO _applicationDao;
-    public ApplicationRepository(ApplicationDAO applicationDao) : base(applicationDao)
+    private readonly ApplicationDAO _applicationDAO;
+    public ApplicationRepository(ApplicationDAO applicationDAO) : base(applicationDAO)
     {
-        _applicationDao = applicationDao;
+        _applicationDAO = applicationDAO;
     }
 }

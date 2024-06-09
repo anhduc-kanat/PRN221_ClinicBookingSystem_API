@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ClinicBookingSystem_BusinessObject.Entities
 {
-    public class Token 
+    public class Token : BaseEntities
     {
         [Key]
         public int Id { get; set; }

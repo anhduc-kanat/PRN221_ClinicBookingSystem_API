@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using ClinicBookingSystem_Service;
 using ClinicBookingSystem_Service.IService;
 using ClinicBookingSystem_Service.IServices;
 using ClinicBookingSystem_Service.Mapping;
@@ -29,7 +30,8 @@ public static class ConfigureService
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IAuthenService, AuthenService>();
         services.AddScoped<IRoleService, RoleService>();
-
+        services.AddScoped<ISlotService, SlotService>();
+        services.AddScoped<IAppointmentService, AppointmentService>();
         return services;
     }
 }

@@ -21,7 +21,7 @@ namespace ClinicBookingSystem_API.Controllers
         }
         [HttpPost]
         [Route ("register")]
-        public async Task<ActionResult<BaseResponse<RegisterResponse>>> register([FromBody] RegisterRequest request)
+        public async Task<  ActionResult<BaseResponse<RegisterResponse>>> register([FromBody] RegisterRequest request)
         {
             var user = await _customerService.AddCustomer(request);
             return user;

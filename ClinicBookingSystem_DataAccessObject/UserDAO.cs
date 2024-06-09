@@ -8,6 +8,7 @@ namespace ClinicBookingSystem_DataAccessObject;
 public class UserDAO : BaseDAO<User>
 {
     private readonly ClinicBookingSystemContext _dbContext;
+
     public UserDAO(ClinicBookingSystemContext dbContext) : base(dbContext)
     {
         _dbContext = dbContext;

@@ -12,7 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClinicBookingSystem_DataAccessObject.Migrations
 {
     [DbContext(typeof(ClinicBookingSystemContext))]
+<<<<<<<< HEAD:ClinicBookingSystem_DataAccessObject/Migrations/20240607072335_Initials.Designer.cs
     [Migration("20240607072335_Initials")]
+========
+    [Migration("20240607071126_Initials")]
+>>>>>>>> ac1f57683410bf1eb46d5ab86642ea517f7fe1ff:ClinicBookingSystem_DataAccessObject/Migrations/20240607071126_Initials.Designer.cs
     partial class Initials
     {
         /// <inheritdoc />

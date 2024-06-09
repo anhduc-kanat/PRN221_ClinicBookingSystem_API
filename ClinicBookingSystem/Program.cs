@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,7 +39,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 // Thêm CORS
-/*builder.Services.AddCors(options =>
+builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
@@ -46,7 +47,7 @@ builder.Services.AddAuthentication(options =>
                .AllowAnyHeader()
                .AllowAnyMethod();
     });
-});*/
+});
 
 // Add services to the container.
 
@@ -102,6 +103,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
