@@ -2,12 +2,14 @@
 using System.Net.Sockets;
 using ClinicBookingSystem_Service.IService;
 using ClinicBookingSystem_Service.Models.BaseResponse;
+using ClinicBookingSystem_Service.Models.Configs.Payment;
 using ClinicBookingSystem_Service.Models.Request.Payment;
 using ClinicBookingSystem_Service.Models.Response.Payment;
 using ClinicBookingSystem_Service.ThirdParties.VnPay.Model.Request;
 using ClinicBookingSystem_Service.ThirdParties.VnPay.Model.Response;
 using ClinicBookingSystem.Common;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace ClinicBookingSystem_API.Controllers;
 [ApiController]
@@ -15,13 +17,16 @@ namespace ClinicBookingSystem_API.Controllers;
 public class PaymentController : ControllerBase
 {
     private readonly IPaymentService _paymentService;
+    private readonly PaymentConfig _paymentConfig;
     private readonly GetUserIpAddress _getUserIpAddress;
     
     public PaymentController(IPaymentService paymentService,
-        GetUserIpAddress getUserIpAddress)
+        GetUserIpAddress getUserIpAddress,
+        IOptions<PaymentConfig> paymentConfig)
     {
         _paymentService = paymentService;
         _getUserIpAddress = getUserIpAddress;
+        _paymentConfig = paymentConfig.Value;
     }
     
     [HttpGet]
@@ -56,6 +61,7 @@ public class PaymentController : ControllerBase
             vnp_TxnRef = query["vnp_TxnRef"]
         };
         await _paymentService.SaveVnPayPayment(request);
-        return Redirect("https://api-prn.zouzoumanagement.xyz/api/appointment/get-all-appointment");
+        return request.vnp_TransactionStatus == "00" ? Redirect(_paymentConfig.PaymentSuccess) : 
+            Redirect(_paymentConfig.PaymentFail);
     }
 }

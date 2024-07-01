@@ -26,4 +26,5 @@ public interface IUnitOfWork : IBaseUnitOfWork
     ISalaryRepository SalaryRepository { get; }
     IClinicOwnerRepository ClinicOwnerRepository { get; }
     IAppointmentBusinessServiceRepository AppointmentBusinessServiceRepository { get; }
+    IMeetingRepository MeetingRepository { get; }
 }

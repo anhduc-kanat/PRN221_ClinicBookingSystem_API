@@ -30,6 +30,7 @@ public class UnitOfWork : BaseUnitOfWork, IUnitOfWork
     private readonly ISalaryRepository _salaryRepository;
     private readonly IClinicOwnerRepository _clinicOwnerRepository;
     private readonly IAppointmentBusinessServiceRepository _appointmentBusinessServiceRepository;
+    private readonly IMeetingRepository _meetingRepository;
     public UnitOfWork(ClinicBookingSystemContext dbContext,
         IApplicationRepository applicationRepository,
         IAppointmentRepository appointmentRepository,
@@ -52,7 +53,8 @@ public class UnitOfWork : BaseUnitOfWork, IUnitOfWork
         ITransactionRepository transactionRepository,
         IUserRepository userRepository,
         IClinicOwnerRepository clinicOwnerRepository,
-        IAppointmentBusinessServiceRepository appointmentBusinessServiceRepository
+        IAppointmentBusinessServiceRepository appointmentBusinessServiceRepository,
+        IMeetingRepository meetingRepository
         ) : base(dbContext) 
     {
         _dbContext = dbContext;
@@ -78,6 +80,7 @@ public class UnitOfWork : BaseUnitOfWork, IUnitOfWork
         _salaryRepository = salaryRepository;
         _clinicOwnerRepository = clinicOwnerRepository;
         _appointmentBusinessServiceRepository = appointmentBusinessServiceRepository;
+        _meetingRepository = meetingRepository;
     }
     public IApplicationRepository ApplicationRepository => _applicationRepository;
     public IAppointmentRepository AppointmentRepository => _appointmentRepository;
@@ -101,4 +104,5 @@ public class UnitOfWork : BaseUnitOfWork, IUnitOfWork
     public IUserRepository UserRepository => _userRepository;
     public IClinicOwnerRepository ClinicOwnerRepository => _clinicOwnerRepository;
     public IAppointmentBusinessServiceRepository AppointmentBusinessServiceRepository => _appointmentBusinessServiceRepository;
+    public IMeetingRepository MeetingRepository => _meetingRepository;
 }

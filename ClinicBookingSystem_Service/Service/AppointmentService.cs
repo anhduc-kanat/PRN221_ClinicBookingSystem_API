@@ -132,6 +132,16 @@ public class AppointmentService : IAppointmentService
         var appointmentBusinessService = _mapper.Map<AppointmentBusinessService>(appointmentBusinessServiceDto);
         await _unitOfWork.AppointmentBusinessServiceRepository.AddAsync(appointmentBusinessService);
         
+        //Create meeting
+        Meeting meeting = new Meeting
+        {
+            Date = appointmentBusinessService.Appointment.Date,
+            AppointmentBusinessService = appointmentBusinessService,
+            Status = MeetingStatus.Undone,
+        };
+        await _unitOfWork.MeetingRepository.AddAsync(meeting);
+        
+        //save change
         await _unitOfWork.SaveChangesAsync();
         var result = _mapper.Map<CustomerBookingAppointmentResponse>(appointment);
         result.UserAccountPhone = userAccount.PhoneNumber;

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using ClinicBookingSystem_Service.Models.Configs.Payment;
 using ClinicBookingSystem_Service.ThirdParties.VnPay.Config;
 using ClinicBookingSystem.Common;
 using ClinicBookingSystem.Middleware;
@@ -96,6 +97,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<ClinicBookingSystemContext>(p
     => p.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
 builder.Services.Configure<VnPayConfig>(builder.Configuration.GetSection("VNPay"));
+builder.Services.Configure<PaymentConfig>(builder.Configuration.GetSection("Payment"));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<GetUserIpAddress>();
 builder.Services.ConfigureRepositoryService(builder.Configuration);
