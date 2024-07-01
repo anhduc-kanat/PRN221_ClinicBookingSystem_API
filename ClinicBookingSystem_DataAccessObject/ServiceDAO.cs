@@ -20,9 +20,8 @@ public class ServiceDAO : BaseDAO<BusinessService>
     //
     public async Task<BusinessService> GetServiceById(int id)
     {
-        var service = await _context.BusinessServices.FindAsync(id);
-
-        return service;
+        return await GetQueryableAsync()
+            .FirstOrDefaultAsync(p => p.Id == id);
     }
     //
     public async Task<BusinessService> CreateService(BusinessService businessService)

@@ -37,6 +37,8 @@ public class AppointmentDAO : BaseDAO<Appointment>
             .ThenInclude(p => p.Role)
             .Include(p => p.Users)
             .ThenInclude(p => p.UserProfiles)
+            .Include(p => p.AppointmentBusinessServices)
+            .ThenInclude(p => p.BusinessService)
             .FirstOrDefaultAsync(p => p.Id == Id);
     }
 

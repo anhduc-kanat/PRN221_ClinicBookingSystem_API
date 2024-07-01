@@ -15,6 +15,8 @@ public class AppointmentBusinessServiceDto
     public string UserTreatmentName { get; set; }
     public int UserAccountId { get; set; }
     public string UserAccountName { get; set; }
+    public int TotalMeetingDate { get; set; }
+    public int MeetingCount { get; set; }
     public BusinessService BusinessService { get; set; }
     public ClinicBookingSystem_BusinessObject.Entities.Appointment Appointment { get; set; }
 }

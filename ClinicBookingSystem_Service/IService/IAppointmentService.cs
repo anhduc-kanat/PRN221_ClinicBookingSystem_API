@@ -35,4 +35,7 @@ public interface IAppointmentService
 
     Task<PaginationResponse<DentistGetTodayAppointmentsResponse>> DentistGetAppointmentByDay(int pageNumber,
         int pageSize, int dentistId, DateOnly date);
+
+    Task<BaseResponse<DentistAddServiceIntoAppointmentResponse>> DentistAddServiceIntoAppointment(int appointmentId,
+        IEnumerable<DentistAddServiceIntoAppointmentRequest> requests);
 }

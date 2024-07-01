@@ -202,7 +202,15 @@ public class AppointmentService : IAppointmentService
         
         var appointmentBusinessService = _mapper.Map<AppointmentBusinessService>(appointmentBusinessServiceDto);
         await _unitOfWork.AppointmentBusinessServiceRepository.AddAsync(appointmentBusinessService);
-        
+        //Meeting
+        Meeting meeting = new Meeting
+        {
+            Date = appointmentBusinessService.Appointment.Date,
+            AppointmentBusinessService = appointmentBusinessService,
+            Status = MeetingStatus.Undone,
+        };
+        await _unitOfWork.MeetingRepository.AddAsync(meeting);
+        //savechange
         await _unitOfWork.SaveChangesAsync();
         var result = _mapper.Map<StaffBookingAppointmentResponse>(appointment);
         result.UserAccountPhone = userAccount.PhoneNumber;
@@ -295,7 +303,49 @@ public class AppointmentService : IAppointmentService
         );
     }
     
-    /*
-    public async Task<BaseResponse<>
-*/
+    public async Task<BaseResponse<DentistAddServiceIntoAppointmentResponse>> DentistAddServiceIntoAppointment(int appointmentId, 
+        IEnumerable<DentistAddServiceIntoAppointmentRequest> requests)
+    {
+        Appointment appointment = await _unitOfWork.AppointmentRepository.GetAppointmentById(appointmentId);
+        if(!appointment.IsClinicalExamPaid.Value) throw new CoreException("Clinical exam has not been paid", StatusCodeEnum.BadRequest_400); 
+        if(appointment == null) throw new CoreException("Appointment not found", StatusCodeEnum.BadRequest_400);
+
+        foreach (var bs in requests)
+        {
+            if(appointment.AppointmentBusinessServices.Any(abs => abs.BusinessService.Id == bs.BusinessServiceId))
+                throw new CoreException("Service already existed in appointment", StatusCodeEnum.Conflict_409);
+        }
+        
+        foreach (var bs in requests)
+        {
+            BusinessService businessService = await _unitOfWork.ServiceRepository.GetServiceById(bs.BusinessServiceId);
+            if(businessService == null) throw new CoreException("Service not found", StatusCodeEnum.BadRequest_400);
+            
+            var appointmentBusinessServiceDto = _mapper.Map<AppointmentBusinessServiceDto>(appointment);
+            appointmentBusinessServiceDto.Appointment = appointment;
+            appointmentBusinessServiceDto.BusinessService = businessService;
+            appointmentBusinessServiceDto.ServiceName = businessService.Name;
+            appointmentBusinessServiceDto.ServiceType = businessService.ServiceType;
+            appointmentBusinessServiceDto.ServicePrice = businessService.Price;
+            appointmentBusinessServiceDto.Status = AppointmentBusinessServiceStatus.Undone;
+            appointmentBusinessServiceDto.TotalMeetingDate = bs.Meetings.Count();
+            appointmentBusinessServiceDto.MeetingCount = 0;
+            
+            var appointmentBusinessService = _mapper.Map<AppointmentBusinessService>(appointmentBusinessServiceDto);
+            await _unitOfWork.AppointmentBusinessServiceRepository.AddAsync(appointmentBusinessService);
+            foreach(var metting in bs.Meetings)
+            {
+                Meeting meeting = new Meeting
+                {
+                    Date = new DateTime(metting.Date.Year, metting.Date.Month, metting.Date.Day, 0, 0, 0),
+                    AppointmentBusinessService = appointmentBusinessService,
+                    Status = MeetingStatus.Undone,
+                };
+                await _unitOfWork.MeetingRepository.AddAsync(meeting);
+            }
+        }
+        await _unitOfWork.SaveChangesAsync();
+        
+        return new BaseResponse<DentistAddServiceIntoAppointmentResponse>("Dentist add service into appointment successfully", StatusCodeEnum.Created_201);
+    }
 }

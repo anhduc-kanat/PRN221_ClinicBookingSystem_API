@@ -270,4 +270,24 @@ public class AppointmentController : ControllerBase
         var response = await _appointmentService.DentistGetAppointmentByDay(paginationRequest.PageNumber, paginationRequest.PageSize, dentistId, date);
         return Ok(response);
     }
+    /// <summary>
+    /// Dentist add thêm các services vào appointment, login và truyền Bearer token vào header
+    /// </summary>
+    /// <remarks>
+    /// Giá trị truyền vào là 1 mảng chứa nhiều các serviceId và 1 mảng meettings. Với meetings, giá trị truyền
+    /// vào là 1 mảng chứa các ngày hẹn của 1 service trong cuộc hẹn đó
+    /// </remarks>
+
+    /// <param name="appointmentId"></param>
+    /// <param name="businessService"></param>
+    /// <returns></returns>
+    [HttpPost]
+    [Route("dentist-add-service-into-appointment/{appointmentId}")]
+    public async Task<ActionResult<BaseResponse<DentistAddServiceIntoAppointmentResponse>>> DentistAddServiceIntoAppointment(int appointmentId, 
+        [FromBody] IEnumerable<DentistAddServiceIntoAppointmentRequest> businessService)
+    {
+        var response = await _appointmentService.DentistAddServiceIntoAppointment(appointmentId, businessService);
+        return Ok(response);
+    }
+
 }
