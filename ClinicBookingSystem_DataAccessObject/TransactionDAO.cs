@@ -44,9 +44,9 @@ public class TransactionDAO : BaseDAO<Transaction>
 
         return GetQueryableAsync().Include(p=>p.Appointment.AppointmentBusinessServices)
             .Where(p => _appointmentDao.GetQueryableAsync()
-        .Where(a => a.UserAccountId == userId).Select(a => a.Id)
-        .Contains(p.Appointment.Id)
-        )
+                .Where(a => a.UserAccountId == userId).Select(a => a.Id)
+                .Contains(p.Appointment.Id)
+            )
             .ToList();
     }
 }

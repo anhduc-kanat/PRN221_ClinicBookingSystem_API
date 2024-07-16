@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+using System.Reflection;
+using ClinicBookingSystem_BusinessObject.Entities;
 using ClinicBookingSystem_BusinessObject.Entities;
 using ClinicBookingSystem_DataAccessObject;
 using ClinicBookingSystem_DataAcessObject.DBContext;
@@ -17,6 +18,7 @@ using ClinicBookingSystem.Common;
 using ClinicBookingSystem.Middleware;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -105,6 +107,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<GetUserIpAddress>();
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+
 builder.Services.ConfigureRepositoryService(builder.Configuration);
 builder.Services.ConfigureServiceService(builder.Configuration);
 builder.Services.ConfigureDataAccessObjectService(builder.Configuration);
@@ -128,6 +131,11 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 app.UseCors();
 app.UseAuthentication();
 app.UseStaticFiles();
+
+app.UseHttpsRedirection();
+
+app.UseCors();
+app.UseAuthentication();
 app.UseAuthorization();
 
 //signalR

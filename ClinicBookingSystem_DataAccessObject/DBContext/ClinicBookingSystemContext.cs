@@ -1,4 +1,4 @@
-﻿using ClinicBookingSystem_BusinessObject.Entities;
+﻿﻿using ClinicBookingSystem_BusinessObject.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;

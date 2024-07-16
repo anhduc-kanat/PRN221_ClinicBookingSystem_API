@@ -12,6 +12,7 @@ public class Application : BaseEntities
     public ApplicationStatus? Status { get; set; }
     public string? ImageUrl { get; set; }
     public bool? IsApproved { get; set; }
+
     
     //User
     public ICollection<User>? User { get; set; }

@@ -1,4 +1,4 @@
-﻿using ClinicBookingSystem_BusinessObject.Entities;
+﻿﻿using ClinicBookingSystem_BusinessObject.Entities;
 using ClinicBookingSystem_Service.Models.BaseResponse;
 using ClinicBookingSystem_Service.Models.Request.Slot;
 using ClinicBookingSystem_Service.Models.Response.Slot;
