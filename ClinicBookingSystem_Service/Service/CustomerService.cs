@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ClinicBookingSystem_Service.Models.Request.Relative;
 using MassTransit;
+using ClinicBookingSystem_Service.Common.Utils;
 
 namespace ClinicBookingSystem_Service.Service
 {
@@ -134,21 +135,7 @@ namespace ClinicBookingSystem_Service.Service
         }
 
 
-        public async Task<BaseResponse<ChangePasswordResponse>> ChangePassword(int userId, string oldPassword, string newPassword)
-        {
-            User customer = await _unitOfWork.CustomerRepository.GetByIdAsync(userId);
-            oldPassword = _hash.EncodePassword(oldPassword);
-            if(oldPassword != customer.Password)
-            {
-                return new BaseResponse<ChangePasswordResponse>("Old password is not correct", StatusCodeEnum.BadRequest_400);
-            }
-            newPassword = _hash.EncodePassword(newPassword);
-            customer.Password = newPassword;
-            await _unitOfWork.CustomerRepository.UpdateAsync(customer);
-            await _unitOfWork.SaveChangesAsync();
-            return new BaseResponse<ChangePasswordResponse>("Change password succesfully", StatusCodeEnum.OK_200);
-
-        }
+     
 
     }
 }
