@@ -50,7 +50,8 @@ namespace ClinicBookingSystem_Service.Service
 
         public async Task<BaseResponse<DeleteSpecificationResponse>> DeleteSpecification(int id)
         {
-            var specification = await _unitOfWork.SpecificationRepository.DeleteSpecification(id);
+            var specification = await _unitOfWork.SpecificationRepository.GetSpecificationById(id);
+            await _unitOfWork.SpecificationRepository.DeleteAsync(specification);
             await _unitOfWork.SaveChangesAsync();
             var result = _mapper.Map<DeleteSpecificationResponse>(specification);
             return new BaseResponse<DeleteSpecificationResponse>("Delete specification successfully", StatusCodeEnum.OK_200, result);

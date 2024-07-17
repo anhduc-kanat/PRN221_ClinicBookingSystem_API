@@ -41,7 +41,6 @@ public class SpecificationDAO : BaseDAO<Specification>
         await _context.SaveChangesAsync();
         return existingSpecification;
     }
-    //
     public async Task<Specification> DeleteSpecification(int id)
     {
         var existingSpecification = await GetSpecificationById(id);
