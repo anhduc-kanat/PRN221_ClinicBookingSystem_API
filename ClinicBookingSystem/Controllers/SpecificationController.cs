@@ -20,6 +20,10 @@ public class SpecificationController : ControllerBase
         _specificationService = specificationService;
     }
 
+    /// <summary>
+    /// Lấy tất cả các Specifications
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     [Route("get-all-specifications")]
     public async Task<ActionResult<BaseResponse<IEnumerable<GetSpecificationResponse>>>> GetSpecifications()
