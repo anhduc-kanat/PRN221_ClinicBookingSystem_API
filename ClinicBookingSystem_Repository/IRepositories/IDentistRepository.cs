@@ -17,5 +17,6 @@ namespace ClinicBookingSystem_Repository.IRepositories
         Task<IEnumerable<User>> GetDentistsByServiceId(int serviceId);
         Task<User> GetDentistById(int dentistId);
         Task<IEnumerable<User>> GetDentistIsNotBusy();
+        Task<User> GetDentistByIdAndSpecificationId(int dentistId, int specificationId);
     }
 }

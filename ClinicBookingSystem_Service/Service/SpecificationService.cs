@@ -77,7 +77,7 @@ namespace ClinicBookingSystem_Service.Service
         public async Task<BaseResponse<UpdateSpecificationResponse>> UpdateSpecification(int id, UpdateSpecificationRequest request)
         {
             var existSpecification = await _unitOfWork.SpecificationRepository.GetSpecificationById(id);
-            if(existSpecification == null) throw new CoreException("Specification not found", StatusCodeEnum.NotFound_404);
+            if(existSpecification == null) throw new CoreException("Specification not found", StatusCodeEnum.BadRequest_400);
             
             IList<BusinessService> bs = new List<BusinessService>();
             existSpecification.BusinessServices = bs;

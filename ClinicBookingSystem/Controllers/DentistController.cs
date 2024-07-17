@@ -104,5 +104,28 @@ namespace ClinicBookingSystem_API.Controllers
             var response = await _dentistService.AddDentistToService(dentistId, businessServiceId);
             return response;
         }
+        
+        
+        /// <summary>
+        /// Update specification cho dentist
+        /// </summary>
+        /// <remarks>
+        /// Có thể add thêm nhiều specifications cho và có thể remove nhiều specifications cho 1 dentist.
+        ///
+        /// Lưu ý nếu không có specification nào thì sẽ remove hết tất cả specification của dentist đó.
+        /// </remarks>
+        /// <param name="dentistId"></param>
+        /// <param name="specificationsId">
+        /// Là Array các id của specification lấy từ Query.
+        /// </param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("update-specification-dentist/{dentistId}")]
+        public async Task<ActionResult<BaseResponse<AddDentistToSpecificationResponse>>> UpdateSpecificationDentist(int dentistId, 
+            [FromQuery] IEnumerable<int> specificationsId)
+        {
+            var response = await _dentistService.UpdateDentistSpecification(dentistId, specificationsId);
+            return Ok(response);
+        }
     }
 }
