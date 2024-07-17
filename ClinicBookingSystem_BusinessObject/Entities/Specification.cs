@@ -9,6 +9,6 @@ public class Specification : BaseEntities
     
     //User
     public ICollection<BusinessService>? BusinessServices { get; set; }
-    public ICollection<User>? User { get; set; }
+    public ICollection<User>? Users { get; set; }
     
 }
