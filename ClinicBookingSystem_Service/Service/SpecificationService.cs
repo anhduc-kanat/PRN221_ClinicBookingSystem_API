@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClinicBookingSystem_Service.CustomException;
+using ClinicBookingSystem_Service.Models.Response.Service;
 
 namespace ClinicBookingSystem_Service.Service
 {
@@ -63,11 +64,13 @@ namespace ClinicBookingSystem_Service.Service
                 specificationsDto);
         }
 
-        public async Task<BaseResponse<GetSpecificationResponse>> GetSpecificationById(int id)
+        public async Task<BaseResponse<GetSpecificationDetailResponse>> GetSpecificationById(int id)
         {
-            var specification = await _unitOfWork.SpecificationRepository.GetByIdAsync(id);
-            var specificationDto = _mapper.Map<GetSpecificationResponse>(specification);
-            return new BaseResponse<GetSpecificationResponse>("Get specification by id successfully", StatusCodeEnum.OK_200, specificationDto);
+            var businessServices = await _unitOfWork.ServiceRepository.GetServicesBySpecification(id);
+            var specification = await _unitOfWork.SpecificationRepository.GetSpecificationById(id);
+            var specificationDto = _mapper.Map<GetSpecificationDetailResponse>(specification);
+            specificationDto.BusinessService = businessServices.Select(bs => _mapper.Map<GetServiceResponse>(bs)).ToList();
+            return new BaseResponse<GetSpecificationDetailResponse>("Get specification by id successfully", StatusCodeEnum.OK_200, specificationDto);
         }
 
         public async Task<BaseResponse<UpdateSpecificationResponse>> UpdateSpecification(int id, UpdateSpecificationRequest request)

@@ -32,9 +32,17 @@ public class SpecificationController : ControllerBase
         return Ok(specifications);
     }
 
+    /// <summary>
+    /// Lấy detail của specification
+    /// </summary>
+    /// <remarks>
+    /// Lấy thông tin chi tiết của specification, kèm theo đó là các BusinessService thuộc collection specifications
+    /// </remarks>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet]
     [Route("get-specification-by-id/{id}")]
-    public async Task<ActionResult<BaseResponse<GetSpecificationResponse>>> GetSalary(int id)
+    public async Task<ActionResult<BaseResponse<GetSpecificationDetailResponse>>> GetSpecificationDetail(int id)
     {
         var specification = await _specificationService.GetSpecificationById(id);
         return Ok(specification);
