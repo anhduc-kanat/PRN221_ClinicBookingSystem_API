@@ -64,6 +64,17 @@ public class SpecificationController : ControllerBase
         return Ok(createdSpecification);
     }
 
+    /// <summary>
+    /// Update Specification, có thể update được businessServices trong collection specification
+    /// </summary>
+    /// <remarks>
+    /// Có thể remove, add thêm businessServices trong api update specification, chỉ cần truyền vào array BusinessServiceId
+    ///
+    /// Lưu ý: Nếu không truyền vào BusinessServiceId, các BusinessServices thuộc specification sẽ set các SpecificationId = null
+    /// </remarks>
+    /// <param name="id"></param>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPut]
     [Route("update-specification/{id}")]
     public async Task<ActionResult<BaseResponse<UpdateSpecificationResponse>>> UpdateSpecification(int id, [FromBody] UpdateSpecificationRequest request)
