@@ -17,5 +17,6 @@ public class BusinessService : BaseEntities
     //User
     public ICollection<User>? Users { get; set; }
 
-
+    //Specification
+    public Specification? Specification { get; set; }
 }
