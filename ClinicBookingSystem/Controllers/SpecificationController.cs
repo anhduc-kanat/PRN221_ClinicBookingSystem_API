@@ -83,6 +83,11 @@ public class SpecificationController : ControllerBase
         return Ok(result);
     }
 
+    /// <summary>
+    /// Delete Specification bằng cách update IsDelete = true (Không xóa khỏi database)
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpDelete]
     [Route("delete-specification/{id}")]
     public async Task<ActionResult<BaseResponse<DeleteSpecificationResponse>>> DeleteSpecification(int id)
