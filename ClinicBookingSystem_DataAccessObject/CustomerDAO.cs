@@ -25,7 +25,7 @@ namespace ClinicBookingSystem_DataAccessObject
         }
         public async Task<User> GetCustomerById(int roleId, int customerId)
         {
-            User customers = await _dbContext.Users.FirstOrDefaultAsync(a => a.Role.Id == roleId && a.Id == customerId);
+            User customers = await _dbContext.Users.Include(a => a.Role).FirstOrDefaultAsync(a => a.Role.Id == roleId && a.Id == customerId);
             return customers;
         }
 

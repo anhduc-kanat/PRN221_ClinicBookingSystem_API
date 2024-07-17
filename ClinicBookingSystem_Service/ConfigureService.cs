@@ -33,7 +33,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Quartz;
-using HashPassword = ClinicBookingSystem_Service.Models.Utils.HashPassword;
+using HashPassword = ClinicBookingSystem_Service.Common.Utils.HashPassword;
 
 public static class ConfigureService
 {
@@ -48,6 +48,8 @@ public static class ConfigureService
         services.AddScoped<IStaffService, StaffService>();
         services.AddScoped<IUserProfileService, UserProfileService>();
         services.AddScoped<HashPassword>();
+        services.AddScoped<GeneratePassword>();
+        services.AddScoped<CheckPassword>();
         services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IAuthenService, AuthenService>();

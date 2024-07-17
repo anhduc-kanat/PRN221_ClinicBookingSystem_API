@@ -26,27 +26,30 @@ namespace ClinicBookingSystem_Service.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IRabbitMQBus _rabbitMQBus;
-        public DentistService(IUnitOfWork unitOfWork, IMapper mapper, IRabbitMQBus rabbitMqBus)
+        private readonly HashPassword _hash;
+        private readonly GeneratePassword _generate;
+        public DentistService(IUnitOfWork unitOfWork, IMapper mapper, HashPassword hash, GeneratePassword generate, IRabbitMQBus rabbitMqBus)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _rabbitMQBus = rabbitMqBus;
+            _hash = hash;
+            _generate = generate;
         }
 
         public async Task<BaseResponse<CreateDentistResponse>> CreateDentist(CreateDentistRequest request)
         {
             try
             {
+                string unhashedPassword = _generate.generatePassword();
                 bool exist = await _unitOfWork.CustomerRepository.GetCustomerByPhone(request.PhoneNumber);
-                var unhashedPassword = request.Password;
                 if (exist)
                 {
                     return new BaseResponse<CreateDentistResponse>("Phone was existed", StatusCodeEnum.BadRequest_400);
 
                 }
-                HashPassword hash = new HashPassword();
-                request.Password = hash.EncodePassword(request.Password);
                 User user = _mapper.Map<User>(request);
+                user.Password = _hash.EncodePassword(unhashedPassword);
                 Role role = await _unitOfWork.RoleRepository.GetRoleByName("DENTIST");
                 user.Role = role;
                 user.IsBusy = false;

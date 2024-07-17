@@ -1,11 +1,14 @@
 ﻿﻿using AutoMapper;
 using ClinicBookingSystem_BusinessObject.Entities;
 using ClinicBookingSystem_Repository.IRepositories;
+using ClinicBookingSystem_Service.Common.Utils;
 using ClinicBookingSystem_Service.IService;
 using ClinicBookingSystem_Service.Models.BaseResponse;
 using ClinicBookingSystem_Service.Models.Enums;
 using ClinicBookingSystem_Service.Models.Request.User;
+using ClinicBookingSystem_Service.Models.Response.Customer;
 using ClinicBookingSystem_Service.Models.Response.User;
+using System.Security.Policy;
 
 namespace ClinicBookingSystem_Service.Service;
 
@@ -13,10 +16,14 @@ public class UserService : IUserService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
-    public UserService(IUnitOfWork unitOfWork, IMapper mapper)
+    private readonly HashPassword _hash;
+    private readonly CheckPassword _checkPassword;
+    public UserService(IUnitOfWork unitOfWork, IMapper mapper, HashPassword hash, CheckPassword checkPassword)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _hash = hash;
+        _checkPassword = checkPassword;
     }
 
     public async Task<BaseResponse<GetMyProfileResponse>> GetMyProfile(int userId)
@@ -26,81 +33,109 @@ public class UserService : IUserService
         return new BaseResponse<GetMyProfileResponse>("Get my profile success", StatusCodeEnum.OK_200, result);
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+    public async Task<BaseResponse<ChangePasswordResponse>> ChangePassword(int userId, string oldPassword, string newPassword)
+    {
+        User user = await _unitOfWork.UserRepository.GetMyProfile(userId);
+        oldPassword = _hash.EncodePassword(oldPassword);
+        if (oldPassword != user.Password)
+        {
+            if (user.Role.Name != "CUSTOMER")
+            {
+                if (!_checkPassword.ValidPassword(newPassword))
+                {
+                    return new BaseResponse<ChangePasswordResponse>("Old password is not correct\nPassword has at least 1 digit, 1 capital letter and 1 special character", StatusCodeEnum.BadRequest_400);
+                }
+            }
+            return new BaseResponse<ChangePasswordResponse>("Old password is not correct", StatusCodeEnum.BadRequest_400);
+        }
+        if(user.Role.Name != "CUSTOMER")
+        {
+            if (!_checkPassword.ValidPassword(newPassword))
+            {
+                return new BaseResponse<ChangePasswordResponse>("Password has at least 1 digit, 1 capital letter and 1 special character", StatusCodeEnum.BadRequest_400);
+            }
+        }
+        newPassword = _hash.EncodePassword(newPassword);
+        user.Password = newPassword;
+        await _unitOfWork.CustomerRepository.UpdateAsync(user);
+        await _unitOfWork.SaveChangesAsync();
+        return new BaseResponse<ChangePasswordResponse>("Change password succesfully", StatusCodeEnum.OK_200);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /*
      *  Quan trọng: KHÔNG CẦN THIẾT KHAI BÁO CÁC HÀM THÊM, TẠO, XÓA, SỬA TRONG DAO MÀ CHỈ CẦN EXTEND BASEDAO<>.
      * 
@@ -132,10 +167,10 @@ public class UserService : IUserService
      *  => chỉ cần sử dụng BaseDAO để thêm, sửa, xóa, lấy dữ liệu từ database để tránh trùng lặp code
      *  
      */
-    
-    
-    
-    
+
+
+
+
     /*//--------------------------------------------------------------------------------//
     //Create User
     //Create a new user as repository
@@ -253,5 +288,5 @@ public class UserService : IUserService
     }
     //--------------------------------------------------------------------------------//
     */
-    
+
 }

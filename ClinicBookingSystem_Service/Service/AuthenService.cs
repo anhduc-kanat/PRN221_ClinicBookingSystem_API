@@ -20,6 +20,7 @@ using System.Security.Cryptography;
 using System.Data;
 using Azure;
 using Claim = System.Security.Claims.Claim;
+using ClinicBookingSystem_Service.Common.Utils;
 
 namespace ClinicBookingSystem_Service.Service
 {
