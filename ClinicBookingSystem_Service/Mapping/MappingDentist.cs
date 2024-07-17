@@ -22,7 +22,9 @@ namespace ClinicBookingSystem_Service.Mapping
             CreateMap<User, DeleteDentistResponse>();
             CreateMap<User, CreateDentistResponse>();
             CreateMap<User, UpdateDentistResponse>();
-            
+
+            CreateMap<UpdateDentistAndSpecificationRequest, User>();
+            CreateMap<User, AddDentistToBusinessServiceResponse>().ReverseMap();
         }
     }
 }

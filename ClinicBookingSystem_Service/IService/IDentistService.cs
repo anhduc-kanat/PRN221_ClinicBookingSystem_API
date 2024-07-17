@@ -28,7 +28,7 @@ namespace ClinicBookingSystem_Service.IServices
         Task<BaseResponse<AddDentistToBusinessServiceResponse>> AddDentistToService(int dentistId,
             int businessServiceId);
 
-        Task<BaseResponse<AddDentistToSpecificationResponse>> UpdateDentistSpecification(int dentistId,
-            IEnumerable<int> specificationsId);
+        Task<BaseResponse<AddDentistToSpecificationResponse>> UpdateDentistAndSpecification(int dentistId,
+            UpdateDentistAndSpecificationRequest request);
     }
 }
