@@ -75,7 +75,23 @@ namespace ClinicBookingSystem_Service.Service
 
         public async Task<BaseResponse<UpdateSpecificationResponse>> UpdateSpecification(int id, UpdateSpecificationRequest request)
         {
-            var existSpecification = await _unitOfWork.SpecificationRepository.GetByIdAsync(id);
+            var existSpecification = await _unitOfWork.SpecificationRepository.GetSpecificationById(id);
+            if(existSpecification == null) throw new CoreException("Specification not found", StatusCodeEnum.NotFound_404);
+            
+            IList<BusinessService> bs = new List<BusinessService>();
+            existSpecification.BusinessServices = bs;
+            foreach (var bsId in request.BusinessServiceId)
+            {
+                var businessService = await _unitOfWork.ServiceRepository.GetServiceById(bsId);
+                if(businessService == null) throw new CoreException("Some business service not found", StatusCodeEnum.BadRequest_400);
+                bs.Add(businessService);
+            }
+            var currentBusinessServices = await _unitOfWork.ServiceRepository.GetServicesBySpecification(id);
+            foreach (var businessService in currentBusinessServices)
+            {
+                businessService.Specification = null;
+            }
+            existSpecification.BusinessServices = bs;
             _mapper.Map(request, existSpecification);
             await _unitOfWork.SpecificationRepository.UpdateAsync(existSpecification);
             await _unitOfWork.SaveChangesAsync();
