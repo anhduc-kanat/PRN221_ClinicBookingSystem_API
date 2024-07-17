@@ -16,5 +16,7 @@ public class MappingSpecification : Profile
         
         CreateMap<Specification, GetSpecificationResponse>().ReverseMap();
         CreateMap<Specification, CreateSpecificationResponse>().ReverseMap();
+        CreateMap<GetSpecificationResponse, GetSpecificationDetailResponse>().ReverseMap();
+        CreateMap<Specification, GetSpecificationDetailResponse>().ReverseMap();
     }
 }

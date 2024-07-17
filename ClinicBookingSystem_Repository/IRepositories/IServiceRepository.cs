@@ -12,4 +12,5 @@ public interface IServiceRepository : IBaseRepository<BusinessService>
     public Task<BusinessService> CreateService(BusinessService businessService);
     public Task<BusinessService> UpdateService(BusinessService businessService);
     public Task<BusinessService> DeleteService(int id);
+    Task<IEnumerable<BusinessService>> GetServicesBySpecification(int specificationId);
 }

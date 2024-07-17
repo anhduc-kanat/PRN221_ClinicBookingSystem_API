@@ -62,4 +62,12 @@ public class ServiceDAO : BaseDAO<BusinessService>
         await _context.SaveChangesAsync();
         return existingService;
     }
+
+    public async Task<IEnumerable<BusinessService>> GetServicesBySpecification(int specificationId)
+    {
+        return await GetQueryableAsync()
+            .Include(p => p.Specification)
+            .Where(p => p.Specification.Id == specificationId)
+            .ToListAsync();
+    }
 }
