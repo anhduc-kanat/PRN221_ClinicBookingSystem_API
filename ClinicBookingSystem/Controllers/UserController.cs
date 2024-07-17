@@ -2,7 +2,9 @@
 using ClinicBookingSystem_Service.IService;
 using ClinicBookingSystem_Service.Models.BaseResponse;
 using ClinicBookingSystem_Service.Models.Request.User;
+using ClinicBookingSystem_Service.Models.Response.Customer;
 using ClinicBookingSystem_Service.Models.Response.User;
+using ClinicBookingSystem_Service.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -49,33 +51,39 @@ namespace ClinicBookingSystem.Controllers
             var response = await _userService.GetMyProfile(userId);
             return Ok(response);
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+        [HttpPost]
+        [Route("change-password/{userId}")]
+        public async Task<ActionResult<BaseResponse<ChangePasswordResponse>>> ChangePassword(int userId, string oldPassword, string newPassword)
+        {
+            return await _userService.ChangePassword(userId, oldPassword, newPassword);
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /*[HttpPost]
         public async Task<ActionResult<BaseResponse<CreateNewUserResponse>>> CreateUser([FromBody] CreateNewUserRequest request)
         {

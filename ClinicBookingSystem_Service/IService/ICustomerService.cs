@@ -18,7 +18,6 @@ namespace ClinicBookingSystem_Service.IService
         Task<BaseResponse<DeleteCustomerResponse>> DeleteCustomer(int id);
         Task<BaseResponse<IEnumerable< GetCustomerResponse>>> GetAllCustomer();
         Task<BaseResponse<GetCustomerResponse>> GetCustomerById(int id);
-        Task<BaseResponse<ChangePasswordResponse>> ChangePassword(int userId, string oldPassword, string newPassword);   
 
     }
 }

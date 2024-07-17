@@ -21,24 +21,27 @@ namespace ClinicBookingSystem_Service.Service
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-
-        public StaffService(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly HashPassword _hash;
+        private readonly GeneratePassword _generate;
+        public StaffService(IUnitOfWork unitOfWork, IMapper mapper, HashPassword hash, GeneratePassword generate)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _hash = hash;
+            _generate = generate;
         }
         public async Task<BaseResponse<CreateStaffResponse>> CreateStaff(CreateStaffRequest request)
         {
             try
             {
+                string unhashedPassword = _generate.generatePassword();
                 bool exist = await _unitOfWork.CustomerRepository.GetCustomerByPhone(request.PhoneNumber);
                 if (exist)
                 {
                     return new BaseResponse<CreateStaffResponse>("Phone was existed", StatusCodeEnum.BadRequest_400);
                 }
-                HashPassword hash = new HashPassword();
-                request.Password = hash.EncodePassword(request.Password);
                 User user = _mapper.Map<User>(request);
+                user.Password = _hash.EncodePassword(unhashedPassword);
                 Role role = await _unitOfWork.RoleRepository.GetRoleByName("STAFF");
                 user.Role = role;
                 var createdUser = await _unitOfWork.StaffRepository.AddAsync(user);

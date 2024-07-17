@@ -3,6 +3,7 @@
 using System.Configuration;
 using ClinicBookingSystem_Repository.IRepositories;
 using ClinicBookingSystem_Service;
+using ClinicBookingSystem_Service.Common.Utils;
 using ClinicBookingSystem_Service.IService;
 using ClinicBookingSystem_Service.IServices;
 using ClinicBookingSystem_Service.Mapping;
@@ -42,6 +43,8 @@ public static class ConfigureService
         services.AddScoped<IStaffService, StaffService>();
         services.AddScoped<IUserProfileService, UserProfileService>();
         services.AddScoped<HashPassword>();
+        services.AddScoped<GeneratePassword>();
+        services.AddScoped<CheckPassword>();
         services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IAuthenService, AuthenService>();
