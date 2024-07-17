@@ -239,14 +239,15 @@ namespace ClinicBookingSystem_Service.Services
                     StatusCodeEnum.OK_200);
         }
         
-        public async Task<BaseResponse<AddDentistToSpecificationResponse>> UpdateDentistSpecification(int dentistId,
-            IEnumerable<int> specificationsId)
+        public async Task<BaseResponse<AddDentistToSpecificationResponse>> UpdateDentistAndSpecification(int dentistId,
+            UpdateDentistAndSpecificationRequest request)
         {
             User dentist = await _unitOfWork.DentistRepository.GetDentistById(dentistId);
             if (dentist == null) throw new CoreException("Dentist not found!", StatusCodeEnum.BadRequest_400);
+            _mapper.Map(request, dentist);
             ICollection<Specification> specifications = new List<Specification>();
             dentist.Specifications.Clear();
-            foreach (var specId in specificationsId)
+            foreach (var specId in request.SpecificationId)
             {
                 Specification specification = await _unitOfWork.SpecificationRepository.GetSpecificationById(specId);
                 if (specification == null) throw new CoreException("Specification not found!", StatusCodeEnum.BadRequest_400);
@@ -257,6 +258,7 @@ namespace ClinicBookingSystem_Service.Services
             await _unitOfWork.DentistRepository.UpdateAsync(dentist);
                 
             await _unitOfWork.SaveChangesAsync();
+            _mapper.Map<AddDentistToBusinessServiceResponse>(dentist);
             return new BaseResponse<AddDentistToSpecificationResponse>("Add Dentist to Specification Successfully!",
                 StatusCodeEnum.OK_200);
         }
