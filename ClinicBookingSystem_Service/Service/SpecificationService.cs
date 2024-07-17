@@ -57,7 +57,7 @@ namespace ClinicBookingSystem_Service.Service
 
         public async Task<BaseResponse<IEnumerable<GetSpecificationResponse>>> GetAllSpecifications()
         {
-            IEnumerable<Specification> specifications = await _unitOfWork.SpecificationRepository.GetAllAsync();
+            IEnumerable<Specification> specifications = await _unitOfWork.SpecificationRepository.GetAllSpecifications();
             var specificationsDto = _mapper.Map<IEnumerable<GetSpecificationResponse>>(specifications);
             return new BaseResponse<IEnumerable<GetSpecificationResponse>>("Get specifications successfully", StatusCodeEnum.OK_200,
                 specificationsDto);
