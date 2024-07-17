@@ -1,5 +1,6 @@
 ﻿﻿using AutoMapper;
 using ClinicBookingSystem_BusinessObject.Entities;
+using ClinicBookingSystem_BusinessObject.Enums;
 using ClinicBookingSystem_Service.Models.DTOs.Appointment;
 using ClinicBookingSystem_Service.Models.DTOs.AppointmentBusinessService;
 using ClinicBookingSystem_Service.Models.Request.Appointment;

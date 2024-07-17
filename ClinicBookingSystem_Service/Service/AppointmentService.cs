@@ -1,4 +1,4 @@
-﻿﻿using AutoMapper;
+﻿using AutoMapper;
 using ClinicBookingSystem_BusinessObject.Entities;
 using ClinicBookingSystem_BusinessObject.Enums;
 using ClinicBookingSystem_Repository.IRepositories;
@@ -42,8 +42,16 @@ public class AppointmentService : IAppointmentService
         int pageSize)
     {
         var appointments = await _unitOfWork.AppointmentRepository.GetAllAppointmentPagination(pageNumber, pageSize);
+
         int count = await _unitOfWork.AppointmentRepository.CountAllAsync();
         var result = _mapper.Map<IList<GetAppointmentResponse>>(appointments);
+        foreach (var rs in result)
+        {
+            var appointmentBusinessServices =
+                await _unitOfWork.AppointmentBusinessServiceRepository.GetUnPaidAppointmentBusiness((int)rs.Id);
+            long totalUnpaid = appointmentBusinessServices.Sum(p => p.ServicePrice);
+            rs.TotalUnPaid = totalUnpaid;
+        }
         return new PaginationResponse<GetAppointmentResponse>(
             "Get all appointments successfully",
             StatusCodeEnum.OK_200,
@@ -57,7 +65,12 @@ public class AppointmentService : IAppointmentService
     public async Task<BaseResponse<GetAppointmentResponse>> GetAppointmentById(int id)
     {
         Appointment appointment = await _unitOfWork.AppointmentRepository.GetAppointmentById(id);
+        if (appointment == null) throw new CoreException("Appointment not found", StatusCodeEnum.BadRequest_400);
+        var appointmentBusinessServices =
+            await _unitOfWork.AppointmentBusinessServiceRepository.GetUnPaidAppointmentBusiness(appointment.Id);
+        long totalUnpaid = appointmentBusinessServices.Sum(p => p.ServicePrice);
         var result = _mapper.Map<GetAppointmentResponse>(appointment);
+        result.TotalUnPaid = totalUnpaid;
         return new BaseResponse<GetAppointmentResponse>("Get appointment by id successfully", StatusCodeEnum.OK_200,
             result);
     }
@@ -298,6 +311,13 @@ public class AppointmentService : IAppointmentService
         var appointments = await _unitOfWork.AppointmentRepository.GetAppointmentByUserId(userId, pageNumber, pageSize);
         int count = await _unitOfWork.AppointmentRepository.CountUserAppointment(userId);
         var result = _mapper.Map<IList<UserGetAppointmentResponse>>(appointments);
+        foreach (var rs in result)
+        {
+            var appointmentBusinessServices =
+                await _unitOfWork.AppointmentBusinessServiceRepository.GetUnPaidAppointmentBusiness((int)rs.Id);
+            long totalUnpaid = appointmentBusinessServices.Sum(p => p.ServicePrice);
+            rs.TotalUnPaid = totalUnpaid;
+        }
         return new PaginationResponse<UserGetAppointmentResponse>(
             "Get all appointments successfully",
             StatusCodeEnum.OK_200,
@@ -341,6 +361,13 @@ public class AppointmentService : IAppointmentService
             await _unitOfWork.AppointmentRepository.GetAppointmentByDatePagination(pageNumber, pageSize, date);
         int count = await _unitOfWork.AppointmentRepository.CountWhenStaffGetAppointmentByDate(date);
         var result = _mapper.Map<IList<StaffGetAppointmentByDayResponse>>(appointments);
+        foreach (var rs in result)
+        {
+            var appointmentBusinessServices =
+                await _unitOfWork.AppointmentBusinessServiceRepository.GetUnPaidAppointmentBusiness((int)rs.Id);
+            long totalUnpaid = appointmentBusinessServices.Sum(p => p.ServicePrice);
+            rs.TotalUnPaid = totalUnpaid;
+        }
         return new PaginationResponse<StaffGetAppointmentByDayResponse>(
             "Get all appointments successfully",
             StatusCodeEnum.OK_200,
