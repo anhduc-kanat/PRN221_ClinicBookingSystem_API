@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ClinicBookingSystem_Service.CustomException;
 
 namespace ClinicBookingSystem_Service.Service
 {
@@ -29,6 +30,17 @@ namespace ClinicBookingSystem_Service.Service
         public async Task<BaseResponse<CreateSpecificationResponse>> CreateSpecification(CreateSpecificationRequest request)
         {
             var specification = _mapper.Map<Specification>(request);
+            if(specification == null) throw new CoreException("Specification is null", StatusCodeEnum.BadRequest_400);
+            
+            ICollection<BusinessService> businessServices = new List<BusinessService>();
+            foreach (var bsId in request.BusinessServiceId)
+            {
+                var businessService = await _unitOfWork.ServiceRepository.GetServiceById(bsId);
+                if(businessService == null) throw new CoreException("Some business service not found", StatusCodeEnum.BadRequest_400);
+                businessServices.Add(businessService);
+            }
+            specification.BusinessServices = businessServices;
+            
             await _unitOfWork.SpecificationRepository.AddAsync(specification);
             await _unitOfWork.SaveChangesAsync();
             var newSpecificationDto = _mapper.Map<CreateSpecificationResponse>(specification);

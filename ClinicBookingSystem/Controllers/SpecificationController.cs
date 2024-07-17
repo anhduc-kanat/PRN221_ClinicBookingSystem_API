@@ -36,6 +36,14 @@ public class SpecificationController : ControllerBase
         return Ok(specification);
     }
 
+    /// <summary>
+    /// Tạo collection Specification chứa các BusinessServices
+    /// </summary>
+    /// <remarks>
+    /// BusinessServiceId là một collection chứa các id của BusinessService
+    /// </remarks>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPost]
     [Route("create-specification")]
     public async Task<ActionResult<BaseResponse<CreateSpecificationResponse>>> AddSpecification([FromBody] CreateSpecificationRequest request)

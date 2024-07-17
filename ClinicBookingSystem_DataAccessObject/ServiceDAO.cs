@@ -35,6 +35,7 @@ public class ServiceDAO : BaseDAO<BusinessService>
         return await GetQueryableAsync()
             .Include(p => p.Users)
             .ThenInclude(p => p.Role)
+            .Include(p => p.Specification)
             .FirstOrDefaultAsync(p => p.Id == id);
     }
     //

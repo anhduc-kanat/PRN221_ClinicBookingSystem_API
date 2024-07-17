@@ -8,7 +8,7 @@ public class Specification : BaseEntities
     public string? Description { get; set; }
     
     //User
-    public ICollection<BusinessService> BusinessServices { get; set; }
+    public ICollection<BusinessService>? BusinessServices { get; set; }
     public ICollection<User>? User { get; set; }
     
 }
