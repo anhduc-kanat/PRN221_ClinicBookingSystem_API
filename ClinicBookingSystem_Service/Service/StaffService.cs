@@ -45,12 +45,7 @@ namespace ClinicBookingSystem_Service.Service
                 {
                     return new BaseResponse<CreateStaffResponse>("Phone was existed", StatusCodeEnum.BadRequest_400);
                 }
-<<<<<<< HEAD
-                string unhashedPassword = request.Password;
                 HashPassword hash = new HashPassword();
-                request.Password = hash.EncodePassword(request.Password);
-=======
->>>>>>> quang2
                 User user = _mapper.Map<User>(request);
                 user.Password = _hash.EncodePassword(unhashedPassword);
                 Role role = await _unitOfWork.RoleRepository.GetRoleByName("STAFF");

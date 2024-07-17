@@ -43,7 +43,6 @@ namespace ClinicBookingSystem_Service.Services
             {
                 string unhashedPassword = _generate.generatePassword();
                 bool exist = await _unitOfWork.CustomerRepository.GetCustomerByPhone(request.PhoneNumber);
-                var unhashedPassword = request.Password;
                 if (exist)
                 {
                     return new BaseResponse<CreateDentistResponse>("Phone was existed", StatusCodeEnum.BadRequest_400);

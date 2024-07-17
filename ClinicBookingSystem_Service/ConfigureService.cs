@@ -33,7 +33,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Quartz;
-using HashPassword = ClinicBookingSystem_Service.Models.Utils.HashPassword;
+using HashPassword = ClinicBookingSystem_Service.Common.Utils.HashPassword;
 
 public static class ConfigureService
 {
