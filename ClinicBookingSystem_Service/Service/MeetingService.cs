@@ -31,9 +31,9 @@ public class MeetingService : IMeetingService
         /*if(appointment.IsFullyPaid is null or false)
             throw new CoreException("Appointment is not fully paid", StatusCodeEnum.BadRequest_400);*/
         
-        if (meeting.Date.Value.Year > DateTime.Now.Year ||
-            meeting.Date.Value.Month > DateTime.Now.Month ||
-            meeting.Date.Value.Day > DateTime.Now.Day) throw new CoreException("Meeting is in the future", StatusCodeEnum.BadRequest_400);
+        if (meeting.Date.Value.Year != DateTime.Now.Year ||
+            meeting.Date.Value.Month != DateTime.Now.Month ||
+            meeting.Date.Value.Day != DateTime.Now.Day) throw new CoreException("Meeting is not in today", StatusCodeEnum.BadRequest_400);
         if(status == MeetingStatus.Done) throw new CoreException("Dont have permission to do this", StatusCodeEnum.BadRequest_400);
         if (status == MeetingStatus.CheckIn)
         {
