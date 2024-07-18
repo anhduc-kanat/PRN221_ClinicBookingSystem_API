@@ -82,7 +82,7 @@ public class BillingService : IBillingService
             await _unitOfWork.AppointmentBusinessServiceRepository.GetUnPaidAppointmentBusiness(appointment.Id);
         long totalUnpaid = appointmentBusinessServices.Sum(p => p.ServicePrice);
         getAppointmentResponse.TotalUnPaid = totalUnpaid;
-        var htmlFilePath = "./TemplateView/Pdf.cshtml";
+        var htmlFilePath = "./View/Pdf.cshtml";
 
 /*        if (!System.IO.File.Exists(htmlFilePath))
         {

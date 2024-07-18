@@ -45,10 +45,11 @@
 
   <ItemGroup>
     <Compile Include="wwwroot\View\NotificationEmailTemplate.cshtml.cs" />
+    <Compile Include="wwwroot\View\Pdf.cshtml.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="TemplateView\Pdf.cshtml.cs" CopyToPublishDirectory="PreserveNewest"/>
+    <AdditionalFiles Include="wwwroot\View\Pdf.cshtml" />
   </ItemGroup>
 
 </Project>
