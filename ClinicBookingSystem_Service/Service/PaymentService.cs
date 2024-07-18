@@ -292,6 +292,7 @@ public class PaymentService : IPaymentService
 
                                 //Transaction
                                 transaction.Status = TransactionStatus.Cancelled;
+                                transaction.IsActive = false;
                                 transaction.IsPay = false;
                                 break;
                             }
@@ -312,6 +313,7 @@ public class PaymentService : IPaymentService
 
                                 //Transaction
                                 transaction.Status = TransactionStatus.Overdue;
+                                transaction.IsActive = false;
                                 transaction.IsPay = false;
                                 break;
                             }

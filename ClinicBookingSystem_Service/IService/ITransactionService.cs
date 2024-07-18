@@ -17,6 +17,6 @@ public interface ITransactionService
     //get all transactions
     Task<BaseResponse<IEnumerable<GetTransactionResponse>>> GetAllTransaction();
     Task<BaseResponse<IEnumerable<GetTransactionResponse>>> GetAllTransactionByUserId(int userId);
-
+    Task<BaseResponse<IEnumerable<GetTransactionResponse>>> GetAllTransactionByDate(DateOnly dateOnly);
 
 }
