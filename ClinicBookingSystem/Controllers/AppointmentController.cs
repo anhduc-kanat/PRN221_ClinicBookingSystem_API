@@ -177,6 +177,13 @@ public class AppointmentController : ControllerBase
         var response = await _appointmentService.CreateAppointment(request);
         return Ok(response);
     }
+    
+    /// <summary>
+    /// Update slot và date của appointment khám, không bắt bất kỳ validation nào, cũng chưa TEST nha !!!!
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="request"></param>
+    /// <returns></returns>
     // PUT: api/appointment/1
     [HttpPut]
     [Route("update-appointment/{id}")]

@@ -288,13 +288,17 @@ public class AppointmentService : IAppointmentService
     {
         DateTime date = new DateTime(request.Date.Value.Year, request.Date.Value.Month, request.Date.Value.Day);
         Appointment appointment = await _unitOfWork.AppointmentRepository.GetAppointmentById(id);
+        
         if(appointment == null) throw new CoreException("Appointment not found", StatusCodeEnum.BadRequest_400);
+            
         var slot = await _unitOfWork.SlotRepository.GetSlotById((int)request.SlotId);
         if(slot == null) throw new CoreException("Slot not found", StatusCodeEnum.BadRequest_400);
         /*var dentist = await _unitOfWork.DentistRepository.GetByIdAsync();
         await _unitOfWork.DentistRepository.GetAvailableDate()*/
-        _mapper.Map(request, appointment);
+        
         appointment.Date = date;
+        appointment.Slot = slot;
+        
         await _unitOfWork.AppointmentRepository.UpdateAsync(appointment);
         await _unitOfWork.SaveChangesAsync();
         var result = _mapper.Map<UpdateAppointmentResponse>(appointment);
