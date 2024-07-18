@@ -55,7 +55,6 @@ namespace ClinicBookingSystem_Service.Services
                 user.IsBusy = false;
                 
                 ICollection<Specification> specifications = new List<Specification>();
-                user.Specifications.Clear();
                 foreach (var specId in request.SpecificationId)
                 {
                     Specification specification = await _unitOfWork.SpecificationRepository.GetSpecificationById(specId);
