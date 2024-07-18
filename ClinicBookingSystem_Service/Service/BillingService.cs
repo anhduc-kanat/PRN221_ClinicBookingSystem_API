@@ -1,11 +1,15 @@
 ﻿using AutoMapper;
 using ClinicBookingSystem_BusinessObject.Entities;
 using ClinicBookingSystem_Repository.IRepositories;
+using ClinicBookingSystem_Service.Common.Utils;
 using ClinicBookingSystem_Service.IService;
 using ClinicBookingSystem_Service.Models.BaseResponse;
 using ClinicBookingSystem_Service.Models.Enums;
 using ClinicBookingSystem_Service.Models.Request.Billing;
+using ClinicBookingSystem_Service.Models.Response.Appointment;
 using ClinicBookingSystem_Service.Models.Response.Billing;
+using iText.Html2pdf;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ClinicBookingSystem_Service.Service;
 
@@ -13,10 +17,13 @@ public class BillingService : IBillingService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
-    public BillingService(IUnitOfWork unitOfWork, IMapper mapper)
+    private readonly RazorViewToStringRenderer _razorRenderer;
+
+    public BillingService(IUnitOfWork unitOfWork, IMapper mapper, RazorViewToStringRenderer razorRenderer)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _razorRenderer = razorRenderer;
     }
     //Get all billings
     public async Task<BaseResponse<IEnumerable<GetBillingResponse>>> GetAllBilling()
@@ -61,5 +68,33 @@ public class BillingService : IBillingService
         return new BaseResponse<DeleteBillingResponse>("Delete billing successfully", StatusCodeEnum.OK_200,
             _mapper.Map<DeleteBillingResponse>(billing));
     }
-    
+
+    public async Task<IActionResult> CreatePdfFromRazorPages(int appointmentId)
+    {
+        Appointment appointment = await _unitOfWork.AppointmentRepository.GetAppointmentById(appointmentId);
+
+        var getAppointmentResponse = _mapper.Map<GetAppointmentResponse>(appointment);
+        getAppointmentResponse.PatientDateOfBirth = getAppointmentResponse.PatientDateOfBirth.Split(' ')[0];
+
+
+        var htmlFilePath = "D:\\Semester 7\\PRN221_ClinicBookingSystem_API\\ClinicBookingSystem\\wwwroot\\View\\Pdf.cshtml";
+
+        if (!System.IO.File.Exists(htmlFilePath))
+        {
+            return new NotFoundObjectResult("Không tìm thấy file HTML trong wwwroot.");
+        }
+
+        // Sử dụng RazorRenderer để render HTML từ file Razor Page
+        var htmlContent = await _razorRenderer.RenderViewToStringAsync(htmlFilePath, getAppointmentResponse);
+
+        // Convert HTML thành PDF và trả về như một FileContentResult
+        using (MemoryStream stream = new MemoryStream())
+        {
+            HtmlConverter.ConvertToPdf(htmlContent, stream);
+            return new FileContentResult(stream.ToArray(), "application/pdf")
+            {
+                FileDownloadName = "example.pdf"
+            };
+        }
+    }
 }

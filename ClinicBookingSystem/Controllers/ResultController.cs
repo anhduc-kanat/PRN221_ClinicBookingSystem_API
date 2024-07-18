@@ -1,7 +1,13 @@
-﻿using ClinicBookingSystem_Service.IService;
+﻿using ClinicBookingSystem_Service.Common.Utils;
+using ClinicBookingSystem_Service.IService;
 using ClinicBookingSystem_Service.Models.BaseResponse;
 using ClinicBookingSystem_Service.Models.Request.Result;
 using ClinicBookingSystem_Service.Models.Response.Result;
+using iText.Html2pdf;
+using iText.Kernel.Exceptions;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClinicBookingSystem_API.Controllers;
@@ -55,4 +61,8 @@ public class ResultController : ControllerBase
         return Ok(result);
     }
     // UPDATE: api/result/5
+
+
+
+   
 }

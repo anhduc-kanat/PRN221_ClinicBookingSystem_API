@@ -71,6 +71,7 @@ public static class ConfigureService
         services.AddScoped<IMeetingService, MeetingService>();
         services.AddScoped<IQueueService, QueueService>();
 
+
         //Email
         services.AddSingleton<RazorViewToStringRenderer>();
         services.AddControllersWithViews();
