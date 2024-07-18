@@ -10,6 +10,7 @@ using ClinicBookingSystem_Service.Models.Response.Appointment;
 using ClinicBookingSystem_Service.Models.Response.Billing;
 using iText.Html2pdf;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace ClinicBookingSystem_Service.Service;
 
@@ -18,12 +19,14 @@ public class BillingService : IBillingService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly RazorViewToStringRenderer _razorRenderer;
+    private readonly ILogger<BillingService> _logger;
 
-    public BillingService(IUnitOfWork unitOfWork, IMapper mapper, RazorViewToStringRenderer razorRenderer)
+    public BillingService(IUnitOfWork unitOfWork, IMapper mapper, RazorViewToStringRenderer razorRenderer, ILogger<BillingService> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _razorRenderer = razorRenderer;
+        _logger = logger;
     }
     //Get all billings
     public async Task<BaseResponse<IEnumerable<GetBillingResponse>>> GetAllBilling()
@@ -75,14 +78,17 @@ public class BillingService : IBillingService
 
         var getAppointmentResponse = _mapper.Map<GetAppointmentResponse>(appointment);
         getAppointmentResponse.PatientDateOfBirth = getAppointmentResponse.PatientDateOfBirth.Split(' ')[0];
+        var appointmentBusinessServices =
+            await _unitOfWork.AppointmentBusinessServiceRepository.GetUnPaidAppointmentBusiness(appointment.Id);
+        long totalUnpaid = appointmentBusinessServices.Sum(p => p.ServicePrice);
+        getAppointmentResponse.TotalUnPaid = totalUnpaid;
+        var htmlFilePath = "./View/Pdf.cshtml";
 
-
-        var htmlFilePath = "D:\\Semester 7\\PRN221_ClinicBookingSystem_API\\ClinicBookingSystem\\wwwroot\\View\\Pdf.cshtml";
-
-        if (!System.IO.File.Exists(htmlFilePath))
+/*        if (!System.IO.File.Exists(htmlFilePath))
         {
+            _logger.LogInformation($"{htmlFilePath}");
             return new NotFoundObjectResult("Không tìm thấy file HTML trong wwwroot.");
-        }
+        }*/
 
         // Sử dụng RazorRenderer để render HTML từ file Razor Page
         var htmlContent = await _razorRenderer.RenderViewToStringAsync(htmlFilePath, getAppointmentResponse);
