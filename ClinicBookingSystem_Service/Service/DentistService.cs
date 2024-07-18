@@ -86,7 +86,7 @@ namespace ClinicBookingSystem_Service.Services
                     PhoneNumber = $"{user.PhoneNumber}",
                     Password = unhashedPassword,
                     To = $"{user.Email}",
-                    ViewUrl = "./wwwroot/View/NotificationEmailTemplate.cshtml"
+                    ViewUrl = "./View/NotificationEmailTemplate.cshtml"
                 });
                 return new BaseResponse<CreateDentistResponse>("Create Dentist Successfully!",
                     StatusCodeEnum.Created_201);
