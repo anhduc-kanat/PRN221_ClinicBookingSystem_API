@@ -55,7 +55,7 @@ namespace ClinicBookingSystem_Service.Service
             
             if (EndTime > new TimeSpan(19, 0, 0) || StartTime > new TimeSpan(19, 0, 0))
             {
-                throw new CoreException("Slot cannot create or end meeting after 19:00", StatusCodeEnum.BadRequest_400);
+                throw new CoreException("Slot cannot create or end slot after 19:00", StatusCodeEnum.BadRequest_400);
             }
             
             var existSlot = await _unitOfWork.SlotRepository.GetSlotByTime(StartTime, EndTime);
