@@ -102,7 +102,9 @@ namespace ClinicBookingSystem_DataAccessObject
         {
             return await GetQueryableAsync()
                 .Include(s => s.BusinessServices)
-                .Where(a => a.BusinessServices.Any(p => p.Id == serviceId && a.Role.Name =="DENTIST"))
+                .Include(p => p.Specifications)
+                //.Where(a => a.BusinessServices.Any(p => p.Id == serviceId && a.Role.Name =="DENTIST"))
+                .Where(p => p.Role.Name == "DENTIST" && p.Specifications.Any(p => p.BusinessServices.Any(p => p.Id == serviceId)))
                 .ToListAsync();
         }
 
@@ -121,6 +123,13 @@ namespace ClinicBookingSystem_DataAccessObject
                 .Include(p => p.Specifications)
                 .Include(p => p.BusinessServices)
                 .FirstOrDefaultAsync(p => p.Id == dentistId && p.Specifications.Any(s => s.Id == specificationId));
+        }
+
+        public async Task<IEnumerable<User>> GetDentistBySpecificationId(int specificationId)
+        {
+            return await GetQueryableAsync()
+                .Include(p => p.Specifications.Where(p => p.Id == specificationId))
+                .ToListAsync();
         }
     }
 

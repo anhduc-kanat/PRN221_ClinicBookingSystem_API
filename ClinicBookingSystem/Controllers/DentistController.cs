@@ -127,5 +127,20 @@ namespace ClinicBookingSystem_API.Controllers
         }
         
         
+        /// <summary>
+        /// Lấy danh sách các dentist trong specification
+        /// </summary>
+        /// <param name="specificationId">
+        /// Id của specification, truyền theo param
+        /// </param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("get-dentist-by-specification/{specificationId}")]
+        public async Task<ActionResult<BaseResponse<IEnumerable<GetAllDentistsResponse>>>>
+            GetDentistBySpecificationId(int specificationId)
+        {
+            var response = await _dentistService.GetDentistBySpecificationId(specificationId);
+            return response;
+        }
     }
 }
