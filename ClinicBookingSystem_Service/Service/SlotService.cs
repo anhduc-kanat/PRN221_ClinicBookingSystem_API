@@ -55,7 +55,7 @@ namespace ClinicBookingSystem_Service.Service
             
             if (EndTime > new TimeSpan(19, 0, 0) || StartTime > new TimeSpan(19, 0, 0))
             {
-                throw new CoreException("Slot cannot create or end slot after 19:00", StatusCodeEnum.BadRequest_400);
+                throw new CoreException("Slot cannot create or end after 19:00", StatusCodeEnum.BadRequest_400);
             }
             
             var existSlot = await _unitOfWork.SlotRepository.GetSlotByTime(StartTime, EndTime);
@@ -90,6 +90,10 @@ namespace ClinicBookingSystem_Service.Service
         {
               TimeSpan StartTime = new TimeSpan((int)request.StartAtHour, (int)request.StartAtMinute, 0);
             TimeSpan EndTime = new TimeSpan((int)request.EndAtHour, (int)request.EndAtMinute, 0);
+            if (EndTime > new TimeSpan(19, 0, 0) || StartTime > new TimeSpan(19, 0, 0))
+            {
+                throw new CoreException("Slot cannot update starttime or endtime after 19:00", StatusCodeEnum.BadRequest_400);
+            }
             var availableSlot = await _unitOfWork.SlotRepository.GetSlotByTimeExceptCurrentSlot(id, StartTime, EndTime);
             if (availableSlot != null) throw new CoreException("Slot is already exist", StatusCodeEnum.Conflict_409);
 
