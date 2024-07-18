@@ -20,7 +20,6 @@ namespace ClinicBookingSystem_Service.Models.Response.Dentist
         public DateTime DateOfBirth { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public ICollection<GetServiceResponse>? Services { get; set; }
         public ICollection<GetSpecificationResponse> Specifications { get; set; }
         public long SalaryAmount { get; set; }
     }
