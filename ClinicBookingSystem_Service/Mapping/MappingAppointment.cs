@@ -18,7 +18,7 @@ public class MappingAppointment : Profile
         
         //CRUD Appointment
         CreateMap<Appointment, CreateAppointmentRequest>();
-        CreateMap<Appointment, UpdateAppointmentRequest>();
+        CreateMap<UpdateAppointmentRequest, Appointment>();
         CreateMap<Appointment, CreateAppointmentResponse>().ReverseMap();
         CreateMap<Appointment, UpdateAppointmentResponse>().ReverseMap();
         CreateMap<Appointment, DeleteAppointmentResponse>().ReverseMap();
