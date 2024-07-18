@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ClinicBookingSystem_Service.CustomException;
 using ClinicBookingSystem_Service.Notification.EmailNotification.IService;
 using ClinicBookingSystem_Service.RabbitMQ.Events.EmailNotification;
 using ClinicBookingSystem_Service.RabbitMQ.IService;
@@ -40,11 +41,12 @@ namespace ClinicBookingSystem_Service.Service
             try
             {
                 string unhashedPassword = _generate.generatePassword();
-                bool exist = await _unitOfWork.CustomerRepository.GetCustomerByPhone(request.PhoneNumber);
-                if (exist)
-                {
-                    return new BaseResponse<CreateStaffResponse>("Phone was existed", StatusCodeEnum.BadRequest_400);
-                }
+                
+                bool existPhone = await _unitOfWork.CustomerRepository.GetCustomerByPhone(request.PhoneNumber);
+                if (existPhone) throw new CoreException("Phone number is already exist!", StatusCodeEnum.BadRequest_400);
+                bool existEmail = await _unitOfWork.CustomerRepository.GetUserByEmail(request.Email);
+                if (existEmail) throw new CoreException("Email is already exist!", StatusCodeEnum.BadRequest_400);
+                
                 HashPassword hash = new HashPassword();
                 User user = _mapper.Map<User>(request);
                 user.Password = _hash.EncodePassword(unhashedPassword);
