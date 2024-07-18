@@ -7,7 +7,7 @@
 
 <html lang="">
 <head>
-    <title>Chi tiết</title>
+    <title>Detail</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -53,40 +53,40 @@
 <body>
     <div class="container">
         <div>
-            <h3>Phòng khám răng ZouZou</h3>
+            <h3>ZouZou DuckClinic</h3>
             <h3>ĐT: (028)12345678</h3>
         </div>
         <div class="header">
-            <h3>Thông tin</h3>
-            <p>Ngày in thông tin: @Model.Date</p>
+            <h3>Information</h3>
+            <p>Publish Date: @Model.Date</p>
         </div>
         <div class="info-section">
-            <h4>Thông tin bệnh nhân</h4>
+            <h4>Patient Information</h4>
             <ul>
-                <li><strong>Số điện thoại:</strong> @Model.PatientPhoneNumber</li>
-                <li><strong>Họ và tên:</strong> @Model.PatientName</li>
-                <li><strong>Giới tính:</strong> @Model.PatientGender</li>
-                <li><strong>Ngày sinh:</strong> @Model.PatientDateOfBirth</li>
-                <li><strong>Địa chỉ:</strong> @Model.PatientAddress</li>
+                <li><strong>Phonenumber:</strong> @Model.PatientPhoneNumber</li>
+                <li><strong>Name:</strong> @Model.PatientName</li>
+                <li><strong>Gender:</strong> @Model.PatientGender</li>
+                <li><strong>Date of Birth:</strong> @Model.PatientDateOfBirth</li>
+                <li><strong>Address:</strong> @Model.PatientAddress</li>
             </ul>
         </div>
         <div class="service-section">
-            <h4>Dịch vụ đã sử dụng</h4>
+            <h4>Used Services</h4>
             <div class="service-list">
                 @foreach (var service in Model.AppointmentServices)
                 {
                     <div class="service-item">
-                        <p><strong>Tên dịch vụ:</strong> @service.ServiceName</p>
+                        <p><strong>Service name:</strong> @service.ServiceName</p>
                         <div>
-                            <p><strong>Thanh toán:</strong> @(service.TransactionStatus == ClinicBookingSystem_BusinessObject.Enums.TransactionStatus.Paid ? "Đã thanh toán" : "Chưa thanh toán")</p>
-                            <p><strong>Giá:</strong> @service.ServicePrice.ToString("N0") VND</p>
+                            <p><strong>Transaction:</strong> @(service.TransactionStatus == ClinicBookingSystem_BusinessObject.Enums.TransactionStatus.Paid ? "Paid" : "UnPaid")</p>
+                            <p><strong>Price:</strong> @service.ServicePrice.ToString("N0") VND</p>
                         </div>
                     </div>
                 }
             </div>
         </div>
         <div class="total-section">
-            <p><strong>Tổng tiền cần trả:</strong>@Model.TotalUnPaid VND</p>
+            <p><strong>Total paid:</strong>@Model.TotalUnPaid VND</p>
         </div>
     </div>
 </body>
