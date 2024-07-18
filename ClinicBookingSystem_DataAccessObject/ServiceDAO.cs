@@ -16,7 +16,8 @@ public class ServiceDAO : BaseDAO<BusinessService>
 
     public async Task<IEnumerable<BusinessService>> GetAllExamServices()
     {
-        return await _context.BusinessServices.Where(s => s.ServiceType == ServiceType.Examination && s.IsPreBooking == true).ToListAsync();
+        return await GetQueryableAsync()
+            .Where(s => s.ServiceType == ServiceType.Examination && s.IsPreBooking == true).ToListAsync();
     }
 
     public async Task<IEnumerable<BusinessService>> GetAllTreatmentServices()
