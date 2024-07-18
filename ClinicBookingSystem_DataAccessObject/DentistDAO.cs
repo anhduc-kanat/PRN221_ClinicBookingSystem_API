@@ -128,7 +128,8 @@ namespace ClinicBookingSystem_DataAccessObject
         public async Task<IEnumerable<User>> GetDentistBySpecificationId(int specificationId)
         {
             return await GetQueryableAsync()
-                .Include(p => p.Specifications.Where(p => p.Id == specificationId))
+                .Include(p => p.Specifications)
+                .Where(p => p.Specifications.Any(p => p.Id == specificationId))
                 .ToListAsync();
         }
     }

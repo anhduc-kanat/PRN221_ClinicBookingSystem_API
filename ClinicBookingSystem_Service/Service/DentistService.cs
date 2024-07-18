@@ -259,8 +259,9 @@ namespace ClinicBookingSystem_Service.Services
         public async Task<BaseResponse<IEnumerable<GetAllDentistsResponse>>> GetDentistBySpecificationId(int specificationId)
         {
                 var dentist = await _unitOfWork.DentistRepository.GetDentistBySpecificationId(specificationId);
+                if(dentist == null) throw new CoreException("There are no dentists!", StatusCodeEnum.BadRequest_400);
                 IEnumerable<GetAllDentistsResponse> response = _mapper.Map<IEnumerable<GetAllDentistsResponse>>(dentist);
-                return new BaseResponse<IEnumerable<GetAllDentistsResponse>>("Get Dentist By ID successfully!",
+                return new BaseResponse<IEnumerable<GetAllDentistsResponse>>("Get Dentist By SpecificationId successfully!",
                     StatusCodeEnum.OK_200, response);
         }
     }
