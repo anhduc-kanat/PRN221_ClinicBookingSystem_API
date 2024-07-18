@@ -13,6 +13,7 @@ public class GetAppointmentServiceResponse
     public string ServiceName { get; set; }
     public long ServicePrice { get; set; }
     public ServiceType ServiceType { get; set; }
+    public bool IsPaid { get; set; }
     public int UserTreatmentId { get; set; }
     public string UserTreatmentName { get; set; }
     public int UserAccountId { get; set; }
