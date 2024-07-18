@@ -2,6 +2,7 @@
 using ClinicBookingSystem_Service.Models.BaseResponse;
 using ClinicBookingSystem_Service.Models.Request.Billing;
 using ClinicBookingSystem_Service.Models.Response.Billing;
+using ClinicBookingSystem_Service.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClinicBookingSystem_API.Controllers;
@@ -55,5 +56,12 @@ public class BillingController : ControllerBase
         var result = await _billingService.DeleteBilling(id);
         return Ok(result);
     }
-    
+
+
+    [HttpGet("generate-pdf")]
+    public async Task<IActionResult> GeneratePdf(int appointmentId)
+    {
+        return await _billingService.CreatePdfFromRazorPages(appointmentId);
+    }
+
 }
