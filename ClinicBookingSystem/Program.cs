@@ -98,8 +98,7 @@ builder.Services.AddSwaggerGen(c =>
 
 
 
-builder.Services.AddDbContext<ClinicBookingSystemContext>(p
-    => p.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
+
 builder.Services.Configure<VnPayConfig>(builder.Configuration.GetSection("VNPay"));
 builder.Services.Configure<RabbitMQConfig>(builder.Configuration.GetSection("RabbitMQ"));
 builder.Services.Configure<PaymentConfig>(builder.Configuration.GetSection("Payment"));

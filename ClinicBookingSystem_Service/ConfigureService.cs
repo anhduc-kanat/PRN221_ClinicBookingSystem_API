@@ -3,6 +3,7 @@
 using System.Configuration;
 using System.Net;
 using System.Net.Mail;
+using ClinicBookingSystem_DataAcessObject.DBContext;
 using ClinicBookingSystem_Repository.IRepositories;
 using ClinicBookingSystem_Service;
 using ClinicBookingSystem_Service.Common.Utils;
@@ -29,6 +30,7 @@ using global::System;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -70,8 +72,6 @@ public static class ConfigureService
         services.AddScoped<INoteService, NoteService>();
         services.AddScoped<IMeetingService, MeetingService>();
         services.AddScoped<IQueueService, QueueService>();
-
-
         //Email
         services.AddSingleton<RazorViewToStringRenderer>();
         services.AddControllersWithViews();

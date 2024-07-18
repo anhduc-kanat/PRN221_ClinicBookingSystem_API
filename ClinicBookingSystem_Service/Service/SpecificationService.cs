@@ -80,7 +80,7 @@ namespace ClinicBookingSystem_Service.Service
             if(existSpecification == null) throw new CoreException("Specification not found", StatusCodeEnum.BadRequest_400);
             
             IList<BusinessService> bs = new List<BusinessService>();
-            existSpecification.BusinessServices = bs;
+            existSpecification.BusinessServices.Clear();
             foreach (var bsId in request.BusinessServiceId)
             {
                 var businessService = await _unitOfWork.ServiceRepository.GetServiceById(bsId);
