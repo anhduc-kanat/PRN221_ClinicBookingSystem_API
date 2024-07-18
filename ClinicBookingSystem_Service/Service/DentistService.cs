@@ -53,7 +53,19 @@ namespace ClinicBookingSystem_Service.Services
                 Role role = await _unitOfWork.RoleRepository.GetRoleByName("DENTIST");
                 user.Role = role;
                 user.IsBusy = false;
-                List<BusinessService> services = new List<BusinessService>();
+                
+                ICollection<Specification> specifications = new List<Specification>();
+                user.Specifications.Clear();
+                foreach (var specId in request.SpecificationId)
+                {
+                    Specification specification = await _unitOfWork.SpecificationRepository.GetSpecificationById(specId);
+                    if (specification == null) throw new CoreException("Specification not found!", StatusCodeEnum.BadRequest_400);
+                    specifications.Add(specification);
+                }
+                user.Specifications = specifications;
+                
+                await _unitOfWork.DentistRepository.AddAsync(user);
+                /*List<BusinessService> services = new List<BusinessService>();
                 foreach (int serviceId in request.ServicesId)
                 {
                     var service = await _unitOfWork.ServiceRepository.GetByIdAsync(serviceId);
@@ -61,8 +73,11 @@ namespace ClinicBookingSystem_Service.Services
                     {
                         services.Add(service);
                     }
-                }
+                }*/
+                
+                /*
                 var createdUser = await _unitOfWork.DentistRepository.CreateNewDentist(user, services);
+                */
                 await _unitOfWork.SaveChangesAsync();
 
                 await _rabbitMQBus.PublishAsync(new EmailNotificationEvent()
