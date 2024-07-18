@@ -82,7 +82,7 @@ public class BillingService : IBillingService
             await _unitOfWork.AppointmentBusinessServiceRepository.GetUnPaidAppointmentBusiness(appointment.Id);
         long totalUnpaid = appointmentBusinessServices.Sum(p => p.ServicePrice);
         getAppointmentResponse.TotalUnPaid = totalUnpaid;
-        var htmlFilePath = "./View/Pdf.cshtml";
+        var htmlFilePath = "./TemplateView/Pdf.cshtml";
 
 /*        if (!System.IO.File.Exists(htmlFilePath))
         {
@@ -91,7 +91,7 @@ public class BillingService : IBillingService
         }*/
 
         // Sử dụng RazorRenderer để render HTML từ file Razor Page
-        var htmlContent = await _razorRenderer.RenderViewToStringAsync(htmlFilePath, getAppointmentResponse);
+        var htmlContent = await _razorRenderer.RenderRazorViewToStringAsync(htmlFilePath, getAppointmentResponse);
 
         // Convert HTML thành PDF và trả về như một FileContentResult
         using (MemoryStream stream = new MemoryStream())
