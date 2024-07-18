@@ -22,6 +22,14 @@ namespace ClinicBookingSystem_API.Controllers
             _queueService = queueService;
         }
 
+        /// <summary>
+        /// Tạo mới 1 dentist, nhập email để send mail cho dentist
+        /// </summary>
+        /// <remarks>
+        /// Khi send mail sẽ bao gồm tài khoản và mật khẩu để đăng nhập, có thể thay đồi mật khẩu sau khi login
+        /// </remarks>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("create-dentist")]
         public async Task<ActionResult<BaseResponse<CreateDentistResponse>>> CreateDentist(CreateDentistRequest request)
@@ -37,6 +45,11 @@ namespace ClinicBookingSystem_API.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Lấy dentist theo Id, bao gồm queueLength và specification detail của từng dentist
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("get-dentist/{id}")]
         public async Task<ActionResult<BaseResponse<GetDentistByIdResponse>>> GetDentistById(int id)
         {
@@ -45,6 +58,10 @@ namespace ClinicBookingSystem_API.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Lấy tất cả dentist, bao gồm queueLength và specification detail của từng dentist
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("get-dentists")]
         public async Task<ActionResult<BaseResponse<IEnumerable<GetAllDentistsResponse>>>> GetAllDentists()
         {
@@ -63,6 +80,11 @@ namespace ClinicBookingSystem_API.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Không biết cái này có xài được không, hay là được fetch bên fe hay không. Nhưng tóm lại là KO SỬ DỤNG API NÀY
+        /// </summary>
+        /// <param name="serviceName"></param>
+        /// <returns></returns>
         [HttpGet("get-dentist-service")]
         public async Task<ActionResult<BaseResponse<IEnumerable<GetAllDentistsResponse>>>> GetDentistByService(string serviceName)
         {
@@ -83,6 +105,11 @@ namespace ClinicBookingSystem_API.Controllers
             return response;
         }
         
+        /// <summary>
+        /// Lấy ra những ngày bận của dentist (đã có lịch hẹn)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("get-date")]
         public async Task<ActionResult<BaseResponse<IEnumerable<DateTime>>>> GetAvailableDateOfDentist(int id)
         {
