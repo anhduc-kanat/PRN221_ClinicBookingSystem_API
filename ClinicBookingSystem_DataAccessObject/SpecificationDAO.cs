@@ -16,6 +16,7 @@ public class SpecificationDAO : BaseDAO<Specification>
     public async Task<IEnumerable<Specification>> GetAllSpecifications()
     {
         return await GetQueryableAsync()
+            .Include(p => p.BusinessServices)
             .ToListAsync();
     }
     //

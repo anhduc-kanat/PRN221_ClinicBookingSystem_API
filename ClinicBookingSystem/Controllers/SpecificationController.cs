@@ -26,7 +26,7 @@ public class SpecificationController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("get-all-specifications")]
-    public async Task<ActionResult<BaseResponse<IEnumerable<GetSpecificationResponse>>>> GetSpecifications()
+    public async Task<ActionResult<BaseResponse<IEnumerable<GetSpecificationDetailResponse>>>> GetSpecifications()
     {
         var specifications = await _specificationService.GetAllSpecifications();
         return Ok(specifications);

@@ -57,11 +57,11 @@ namespace ClinicBookingSystem_Service.Service
             return new BaseResponse<DeleteSpecificationResponse>("Delete specification successfully", StatusCodeEnum.OK_200, result);
         }
 
-        public async Task<BaseResponse<IEnumerable<GetSpecificationResponse>>> GetAllSpecifications()
+        public async Task<BaseResponse<IEnumerable<GetSpecificationDetailResponse>>> GetAllSpecifications()
         {
             IEnumerable<Specification> specifications = await _unitOfWork.SpecificationRepository.GetAllSpecifications();
-            var specificationsDto = _mapper.Map<IEnumerable<GetSpecificationResponse>>(specifications);
-            return new BaseResponse<IEnumerable<GetSpecificationResponse>>("Get specifications successfully", StatusCodeEnum.OK_200,
+            var specificationsDto = _mapper.Map<IEnumerable<GetSpecificationDetailResponse>>(specifications);
+            return new BaseResponse<IEnumerable<GetSpecificationDetailResponse>>("Get specifications successfully", StatusCodeEnum.OK_200,
                 specificationsDto);
         }
 
