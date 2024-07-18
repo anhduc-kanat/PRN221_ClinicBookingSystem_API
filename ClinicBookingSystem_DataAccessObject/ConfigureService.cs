@@ -1,6 +1,8 @@
 ﻿using ClinicBookingSystem_BusinessObject.Entities;
 using ClinicBookingSystem_DataAccessObject.BaseDAO;
 using ClinicBookingSystem_DataAccessObject.IBaseDAO;
+using ClinicBookingSystem_DataAcessObject.DBContext;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -36,7 +38,11 @@ public static class ConfigureService
         services.AddScoped<MeetingDAO>();
         services.AddScoped<NoteDAO>();
         services.AddScoped(typeof(IBaseDAO<>), typeof(BaseDAO<>));
-
+        
+        //Connection String
+        services.AddDbContext<ClinicBookingSystemContext>(p
+            => p.UseSqlServer(configuration.GetConnectionString("DbConnection")));
+        
         return services;
     }
 }
