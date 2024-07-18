@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using ClinicBookingSystem_Service.Models.Request.Relative;
 using MassTransit;
 using ClinicBookingSystem_Service.Common.Utils;
+using ClinicBookingSystem_Service.CustomException;
 
 namespace ClinicBookingSystem_Service.Service
 {
@@ -38,11 +39,11 @@ namespace ClinicBookingSystem_Service.Service
         {
             try
             {
-                bool exist =await _unitOfWork.CustomerRepository.GetCustomerByPhone(request.PhoneNumber);
-                if (exist)
-                {
-                    return new BaseResponse<RegisterResponse>("Phone was existed", StatusCodeEnum.BadRequest_400);
-                }
+                bool existPhone = await _unitOfWork.CustomerRepository.GetCustomerByPhone(request.PhoneNumber);
+                if (existPhone) throw new CoreException("Phone number is already exist!", StatusCodeEnum.BadRequest_400);
+                bool existEmail = await _unitOfWork.CustomerRepository.GetUserByEmail(request.Email);
+                if (existEmail) throw new CoreException("Email is already exist!", StatusCodeEnum.BadRequest_400);
+                
                 request.Password = _hash.EncodePassword(request.Password);
                 Role role = await _unitOfWork.RoleRepository.GetRoleByName("CUSTOMER");
                 User customerAddData = _mapper.Map<User>(request);

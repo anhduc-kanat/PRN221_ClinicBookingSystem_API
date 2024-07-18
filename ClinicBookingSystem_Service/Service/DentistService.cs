@@ -42,12 +42,12 @@ namespace ClinicBookingSystem_Service.Services
             try
             {
                 string unhashedPassword = _generate.generatePassword();
-                bool exist = await _unitOfWork.CustomerRepository.GetCustomerByPhone(request.PhoneNumber);
-                if (exist)
-                {
-                    return new BaseResponse<CreateDentistResponse>("Phone was existed", StatusCodeEnum.BadRequest_400);
-
-                }
+                
+                bool existPhone = await _unitOfWork.CustomerRepository.GetCustomerByPhone(request.PhoneNumber);
+                if (existPhone) throw new CoreException("Phone was existed!", StatusCodeEnum.BadRequest_400);
+                bool existEmail = await _unitOfWork.CustomerRepository.GetUserByEmail(request.Email);
+                if(existEmail) throw new CoreException("Email was existed!", StatusCodeEnum.BadRequest_400);
+                
                 User user = _mapper.Map<User>(request);
                 user.Password = _hash.EncodePassword(unhashedPassword);
                 Role role = await _unitOfWork.RoleRepository.GetRoleByName("DENTIST");
