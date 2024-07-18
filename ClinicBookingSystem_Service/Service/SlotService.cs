@@ -52,6 +52,12 @@ namespace ClinicBookingSystem_Service.Service
         {
             TimeSpan StartTime = new TimeSpan(request.StartAtHour, request.StartAtMinute, 0);
             TimeSpan EndTime = new TimeSpan(request.EndAtHour, request.EndAtMinute, 0);
+            
+            if (EndTime > new TimeSpan(19, 0, 0) || StartTime > new TimeSpan(19, 0, 0))
+            {
+                throw new CoreException("Slot cannot create or end after 19:00", StatusCodeEnum.BadRequest_400);
+            }
+            
             var existSlot = await _unitOfWork.SlotRepository.GetSlotByTime(StartTime, EndTime);
             if (existSlot != null) throw new CoreException("Slot is already exist", StatusCodeEnum.Conflict_409);
             
