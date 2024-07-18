@@ -53,6 +53,12 @@ namespace ClinicBookingSystem_Service.Service
         {
             var specification = await _unitOfWork.SpecificationRepository.GetSpecificationById(id);
             await _unitOfWork.SpecificationRepository.DeleteAsync(specification);
+            var businessServices = await _unitOfWork.ServiceRepository.GetServicesBySpecification(id);
+            foreach (var bs in businessServices)
+            {
+                bs.Specification = null;
+                _unitOfWork.ServiceRepository.UpdateAsync(bs);
+            }
             await _unitOfWork.SaveChangesAsync();
             var result = _mapper.Map<DeleteSpecificationResponse>(specification);
             return new BaseResponse<DeleteSpecificationResponse>("Delete specification successfully", StatusCodeEnum.OK_200, result);
