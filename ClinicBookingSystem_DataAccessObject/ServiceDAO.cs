@@ -67,6 +67,7 @@ public class ServiceDAO : BaseDAO<BusinessService>
     {
         return await GetQueryableAsync()
             .Include(p => p.Specification)
+            .ThenInclude(p => p.BusinessServices)
             .Where(p => p.Specification.Id == specificationId)
             .ToListAsync();
     }
