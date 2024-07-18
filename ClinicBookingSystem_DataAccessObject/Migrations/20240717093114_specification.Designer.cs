@@ -4,6 +4,7 @@ using ClinicBookingSystem_DataAcessObject.DBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClinicBookingSystem_DataAccessObject.Migrations
 {
     [DbContext(typeof(ClinicBookingSystemContext))]
-    partial class ClinicBookingSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20240717093114_specification")]
+    partial class specification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1161,12 +1164,12 @@ namespace ClinicBookingSystem_DataAccessObject.Migrations
                     b.Property<int>("SpecificationsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UsersId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("SpecificationsId", "UsersId");
+                    b.HasKey("SpecificationsId", "UserId");
 
-                    b.HasIndex("UsersId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("SpecificationUser");
                 });
@@ -1424,7 +1427,7 @@ namespace ClinicBookingSystem_DataAccessObject.Migrations
 
                     b.HasOne("ClinicBookingSystem_BusinessObject.Entities.User", null)
                         .WithMany()
-                        .HasForeignKey("UsersId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -17,12 +17,14 @@ namespace ClinicBookingSystem_Service.Mapping
             CreateMap<CreateDentistRequest, User>().ReverseMap();
             CreateMap<UpdateDentistRequest, User>().ReverseMap();
             CreateMap<User, GetDentistByIdResponse>();
-            CreateMap<User, GetAllDentistsResponse>()
-                .ForMember(dest => dest.Services, opt => opt.MapFrom(src => src.BusinessServices));
+            CreateMap<User, GetAllDentistsResponse>();
             CreateMap<User, DeleteDentistResponse>();
             CreateMap<User, CreateDentistResponse>();
             CreateMap<User, UpdateDentistResponse>();
-            
+
+            CreateMap<UpdateDentistAndSpecificationRequest, User>();
+            CreateMap<User, AddDentistToBusinessServiceResponse>().ReverseMap();
+
         }
     }
 }

@@ -35,6 +35,7 @@ public class ServiceDAO : BaseDAO<BusinessService>
         return await GetQueryableAsync()
             .Include(p => p.Users)
             .ThenInclude(p => p.Role)
+            .Include(p => p.Specification)
             .FirstOrDefaultAsync(p => p.Id == id);
     }
     //
@@ -60,5 +61,13 @@ public class ServiceDAO : BaseDAO<BusinessService>
         _context.BusinessServices.Remove(existingService);
         await _context.SaveChangesAsync();
         return existingService;
+    }
+
+    public async Task<IEnumerable<BusinessService>> GetServicesBySpecification(int specificationId)
+    {
+        return await GetQueryableAsync()
+            .Include(p => p.Specification)
+            .Where(p => p.Specification.Id == specificationId)
+            .ToListAsync();
     }
 }

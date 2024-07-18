@@ -15,14 +15,17 @@ public class SpecificationDAO : BaseDAO<Specification>
 
     public async Task<IEnumerable<Specification>> GetAllSpecifications()
     {
-        return await _context.Specifications.ToListAsync();
+        return await GetQueryableAsync()
+            .Include(p => p.BusinessServices)
+            .ToListAsync();
     }
     //
     public async Task<Specification> GetSpecificationById(int id)
     {
-        var specification = await _context.Specifications.FindAsync(id);
-
-        return specification;
+        return await GetQueryableAsync()
+            .Include(p => p.BusinessServices)
+            .Include(p => p.Users)
+            .FirstOrDefaultAsync(p => p.Id == id);
     }
     //
     public async Task<Specification> CreateSpecification(Specification specification)
@@ -40,7 +43,6 @@ public class SpecificationDAO : BaseDAO<Specification>
         await _context.SaveChangesAsync();
         return existingSpecification;
     }
-    //
     public async Task<Specification> DeleteSpecification(int id)
     {
         var existingSpecification = await GetSpecificationById(id);

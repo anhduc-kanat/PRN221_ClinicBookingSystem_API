@@ -42,12 +42,12 @@ namespace ClinicBookingSystem_Service.Services
             try
             {
                 string unhashedPassword = _generate.generatePassword();
-                bool exist = await _unitOfWork.CustomerRepository.GetCustomerByPhone(request.PhoneNumber);
-                if (exist)
-                {
-                    return new BaseResponse<CreateDentistResponse>("Phone was existed", StatusCodeEnum.BadRequest_400);
-
-                }
+                
+                bool existPhone = await _unitOfWork.CustomerRepository.GetCustomerByPhone(request.PhoneNumber);
+                if (existPhone) throw new CoreException("Phone was existed!", StatusCodeEnum.BadRequest_400);
+                bool existEmail = await _unitOfWork.CustomerRepository.GetUserByEmail(request.Email);
+                if(existEmail) throw new CoreException("Email was existed!", StatusCodeEnum.BadRequest_400);
+                
                 User user = _mapper.Map<User>(request);
                 user.Password = _hash.EncodePassword(unhashedPassword);
                 Role role = await _unitOfWork.RoleRepository.GetRoleByName("DENTIST");
@@ -138,19 +138,12 @@ namespace ClinicBookingSystem_Service.Services
 
         public async Task<BaseResponse<IEnumerable<GetAllDentistsResponse>>> GetAllDentistsByServiceId(int serviceId)
         {
-            try
-            {
                 IEnumerable<User> dentists = await _unitOfWork.DentistRepository.GetDentistsByServiceId(serviceId);
+                if(dentists == null) throw new CoreException("Dentist not found!", StatusCodeEnum.BadRequest_400);
                 IEnumerable<GetAllDentistsResponse> response =
                     _mapper.Map<IEnumerable<GetAllDentistsResponse>>(dentists);
                 return new BaseResponse<IEnumerable<GetAllDentistsResponse>>("Get All Dentists successfully",
                     StatusCodeEnum.OK_200, response);
-            }
-            catch (Exception ex)
-            {
-                return new BaseResponse<IEnumerable<GetAllDentistsResponse>>(
-                    "Error at GetAllDentists Service: " + ex.Message, StatusCodeEnum.InternalServerError_500);
-            }
         }
 
         public async Task<BaseResponse<IEnumerable<DateTime>>> GetAvailableDate(int id)
@@ -237,6 +230,39 @@ namespace ClinicBookingSystem_Service.Services
                 await _unitOfWork.SaveChangesAsync();
                 return new BaseResponse<AddDentistToBusinessServiceResponse>("Add Dentist to Service Successfully!",
                     StatusCodeEnum.OK_200);
+        }
+        
+        public async Task<BaseResponse<AddDentistToSpecificationResponse>> UpdateDentistAndSpecification(int dentistId,
+            UpdateDentistAndSpecificationRequest request)
+        {
+            User dentist = await _unitOfWork.DentistRepository.GetDentistById(dentistId);
+            if (dentist == null) throw new CoreException("Dentist not found!", StatusCodeEnum.BadRequest_400);
+            _mapper.Map(request, dentist);
+            ICollection<Specification> specifications = new List<Specification>();
+            dentist.Specifications.Clear();
+            foreach (var specId in request.SpecificationId)
+            {
+                Specification specification = await _unitOfWork.SpecificationRepository.GetSpecificationById(specId);
+                if (specification == null) throw new CoreException("Specification not found!", StatusCodeEnum.BadRequest_400);
+                specifications.Add(specification);
+            }
+            
+            dentist.Specifications = specifications;
+            await _unitOfWork.DentistRepository.UpdateAsync(dentist);
+                
+            await _unitOfWork.SaveChangesAsync();
+            _mapper.Map<AddDentistToBusinessServiceResponse>(dentist);
+            return new BaseResponse<AddDentistToSpecificationResponse>("Add Dentist to Specification Successfully!",
+                StatusCodeEnum.OK_200);
+        }
+        
+        public async Task<BaseResponse<IEnumerable<GetAllDentistsResponse>>> GetDentistBySpecificationId(int specificationId)
+        {
+                var dentist = await _unitOfWork.DentistRepository.GetDentistBySpecificationId(specificationId);
+                if(dentist == null) throw new CoreException("There are no dentists!", StatusCodeEnum.BadRequest_400);
+                IEnumerable<GetAllDentistsResponse> response = _mapper.Map<IEnumerable<GetAllDentistsResponse>>(dentist);
+                return new BaseResponse<IEnumerable<GetAllDentistsResponse>>("Get Dentist By SpecificationId successfully!",
+                    StatusCodeEnum.OK_200, response);
         }
     }
 }

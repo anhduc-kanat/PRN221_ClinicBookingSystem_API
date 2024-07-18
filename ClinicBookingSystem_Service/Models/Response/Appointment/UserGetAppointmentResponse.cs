@@ -27,6 +27,7 @@ public class UserGetAppointmentResponse
     public bool? IsFullyPaid { get; set; }
     public int? SlotId { get; set; }
     public string? SlotName { get; set; }
+    public long? TotalUnPaid { get; set; }
     public TimeSpan? StartAt { get; set; }
     public TimeSpan? EndAt { get; set; }
     public GetResultResponse? Result { get; set; }

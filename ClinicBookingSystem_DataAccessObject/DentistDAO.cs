@@ -43,6 +43,7 @@ namespace ClinicBookingSystem_DataAccessObject
             return await GetQueryableAsync()
                 .Include(u => u.Role)
                 .Include(u => u.BusinessServices)
+                .Include(p => p.Specifications)
                 .Where(u => u.Role.Name == "DENTIST")
                 .ToListAsync();
         }
@@ -51,6 +52,7 @@ namespace ClinicBookingSystem_DataAccessObject
             return await GetQueryableAsync()
                 .Include(u => u.Role)
                 .Include(u => u.BusinessServices)
+                .Include(p => p.Specifications)
                 .Where(u => u.Id == dentistId)
                 .FirstOrDefaultAsync();
         }
@@ -100,7 +102,9 @@ namespace ClinicBookingSystem_DataAccessObject
         {
             return await GetQueryableAsync()
                 .Include(s => s.BusinessServices)
-                .Where(a => a.BusinessServices.Any(p => p.Id == serviceId && a.Role.Name =="DENTIST"))
+                .Include(p => p.Specifications)
+                //.Where(a => a.BusinessServices.Any(p => p.Id == serviceId && a.Role.Name =="DENTIST"))
+                .Where(p => p.Role.Name == "DENTIST" && p.Specifications.Any(p => p.BusinessServices.Any(p => p.Id == serviceId)))
                 .ToListAsync();
         }
 
@@ -108,7 +112,24 @@ namespace ClinicBookingSystem_DataAccessObject
         {
             return await GetQueryableAsync()
                 .Include(s => s.BusinessServices.Where(p => p.ServiceType == ServiceType.Treatment))
+                .Include(p => p.Specifications)
                 .Where(a => a.IsBusy == false && a.Role.Name == "DENTIST")
+                .ToListAsync();
+        }
+
+        public async Task<User> GetDentistByIdAndSpecificationId(int dentistId, int specificationId)
+        {
+            return await GetQueryableAsync()
+                .Include(p => p.Specifications)
+                .Include(p => p.BusinessServices)
+                .FirstOrDefaultAsync(p => p.Id == dentistId && p.Specifications.Any(s => s.Id == specificationId));
+        }
+
+        public async Task<IEnumerable<User>> GetDentistBySpecificationId(int specificationId)
+        {
+            return await GetQueryableAsync()
+                .Include(p => p.Specifications)
+                .Where(p => p.Specifications.Any(p => p.Id == specificationId))
                 .ToListAsync();
         }
     }

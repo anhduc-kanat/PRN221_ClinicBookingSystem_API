@@ -23,7 +23,7 @@ public class SpecificationRepository : BaseRepository<Specification>, ISpecifica
         return await _specificationDAO.DeleteSpecification(id);
     }
 
-    public async Task<IEnumerable<Specification>> GetAllSSpecifications()
+    public async Task<IEnumerable<Specification>> GetAllSpecifications()
     {
         return await _specificationDAO.GetAllSpecifications();
     }

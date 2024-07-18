@@ -5,7 +5,7 @@ namespace ClinicBookingSystem_Repository.IRepositories;
 
 public interface ISpecificationRepository : IBaseRepository<Specification>
 {
-    public Task<IEnumerable<Specification>> GetAllSSpecifications();
+    public Task<IEnumerable<Specification>> GetAllSpecifications();
     public Task<Specification> GetSpecificationById(int id);
     public Task<Specification> CreateSpecification(Specification specification);
     public Task<Specification> UpdateSpecification(Specification specification);

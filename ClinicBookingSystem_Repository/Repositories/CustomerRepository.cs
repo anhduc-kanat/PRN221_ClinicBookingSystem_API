@@ -33,5 +33,10 @@ namespace ClinicBookingSystem_Repository.Repositories
         {
             return _customerDAO.GetUserByPhone(phone);
         }
+
+        public async Task<bool> GetUserByEmail(string email)
+        {
+            return await _customerDAO.GetUserByEmail(email);
+        }
     }
 }

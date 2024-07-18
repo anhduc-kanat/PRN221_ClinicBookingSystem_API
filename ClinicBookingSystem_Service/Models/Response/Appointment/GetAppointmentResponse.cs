@@ -32,6 +32,7 @@ public class GetAppointmentResponse
     public string? SlotName { get; set; }
     public bool? IsClinicalExamPaid { get; set; }
     public bool? IsFullyPaid { get; set; }
+    public long? TotalUnPaid { get; set; }
     public TimeSpan? StartAt { get; set; }
     public TimeSpan? EndAt { get; set; }
     public GetResultResponse? Result { get; set; }

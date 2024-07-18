@@ -1,4 +1,4 @@
-﻿﻿using ClinicBookingSystem_BusinessObject.Enums;
+﻿using ClinicBookingSystem_BusinessObject.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace ClinicBookingSystem_BusinessObject.Entities;
@@ -17,5 +17,6 @@ public class BusinessService : BaseEntities
     //User
     public ICollection<User>? Users { get; set; }
 
-
+    //Specification
+    public Specification? Specification { get; set; }
 }

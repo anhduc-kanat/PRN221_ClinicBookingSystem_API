@@ -28,6 +28,11 @@ public class ServiceRepository : BaseRepository<BusinessService>, IServiceReposi
         return await _serviceDAO.DeleteService(id);
     }
 
+    public async Task<IEnumerable<BusinessService>> GetServicesBySpecification(int specificationId)
+    {
+        return await _serviceDAO.GetServicesBySpecification(specificationId);
+    }
+
     public async Task<IEnumerable<BusinessService>> GetAllExamServices()
     {
         return await _serviceDAO.GetAllExamServices();
@@ -47,4 +52,5 @@ public class ServiceRepository : BaseRepository<BusinessService>, IServiceReposi
     {
         return await _serviceDAO.UpdateService(businessService);
     }
+    
 }

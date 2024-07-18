@@ -37,5 +37,10 @@ namespace ClinicBookingSystem_DataAccessObject
             return customer !=null;
         }
 
+        public async Task<bool> GetUserByEmail(string email)
+        {
+            return await GetQueryableAsync()
+                .AnyAsync(p => p.Email.Equals(email));
+        }
     }
 }
