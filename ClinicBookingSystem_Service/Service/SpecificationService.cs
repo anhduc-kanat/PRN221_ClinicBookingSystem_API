@@ -38,6 +38,7 @@ namespace ClinicBookingSystem_Service.Service
             {
                 var businessService = await _unitOfWork.ServiceRepository.GetServiceById(bsId);
                 if(businessService == null) throw new CoreException("Some business service not found", StatusCodeEnum.BadRequest_400);
+                if(businessService.Specification != null) throw new CoreException("Business service already has specification", StatusCodeEnum.BadRequest_400);
                 businessServices.Add(businessService);
             }
             specification.BusinessServices = businessServices;
@@ -84,6 +85,7 @@ namespace ClinicBookingSystem_Service.Service
             {
                 var businessService = await _unitOfWork.ServiceRepository.GetServiceById(bsId);
                 if(businessService == null) throw new CoreException("Some business service not found", StatusCodeEnum.BadRequest_400);
+                if(businessService.Specification != null) throw new CoreException("Business service already has specification", StatusCodeEnum.BadRequest_400);
                 bs.Add(businessService);
             }
             var currentBusinessServices = await _unitOfWork.ServiceRepository.GetServicesBySpecification(id);
