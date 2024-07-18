@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ClinicBookingSystem_API.Common.ViewPdf;
+namespace ClinicBookingSystem_API.TemplateView;
 
 public class NotificationEmailTemplate : PageModel
 {
