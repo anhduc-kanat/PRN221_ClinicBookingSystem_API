@@ -105,7 +105,7 @@ builder.Services.Configure<PaymentConfig>(builder.Configuration.GetSection("Paym
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<GetUserIpAddress>();
 
-builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 builder.Services.ConfigureRepositoryService(builder.Configuration);
 builder.Services.ConfigureServiceService(builder.Configuration);
