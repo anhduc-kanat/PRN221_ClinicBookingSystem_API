@@ -297,4 +297,29 @@ public class AppointmentDAO : BaseDAO<Appointment>
                 p => p.Meetings.Any(
                     p => p.Status == MeetingStatus.InQueue || p.Status == MeetingStatus.InTreatment || p.Status == MeetingStatus.CheckIn)));
     }
+
+    public async Task<IEnumerable<Appointment>> CountAppointment(DateTime date, int type)
+    {
+        IEnumerable<Appointment> appointments = null;
+        switch (type)
+        {
+            case 1:
+                appointments = await GetQueryableAsync()
+                    .Where(a => a.Date.Date == date.Date && a.IsFullyPaid == true)
+                    .ToListAsync();
+                break;
+            case 2:
+                appointments = await GetQueryableAsync()
+                    .Where(a => a.Date.Month == date.Month && a.Date.Year == date.Year && a.IsFullyPaid == true)
+                    .ToListAsync();
+                break;
+            case 3:
+                appointments = await GetQueryableAsync()
+                    .Where(a => a.Date.Year == date.Year && a.IsFullyPaid == true)
+                    .ToListAsync();
+                break;
+        }
+        return appointments;
+
+    }
 }

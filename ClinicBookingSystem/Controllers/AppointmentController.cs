@@ -629,4 +629,12 @@ public class AppointmentController : ControllerBase
         var response = await _appointmentService.DeleteServiceInAppointment(appBusinessServiceId);
         return Ok(response);
     }
+
+    [HttpGet]
+    [Route("statistic-appointment")]
+    public async Task<ActionResult<CountAppointment>> DeleteServiceInAppointment(DateTime date,int type)
+    {
+        var response = await _appointmentService.CountAppointment(date,type);
+        return Ok(response);
+    }
 }

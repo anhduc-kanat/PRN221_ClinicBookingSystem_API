@@ -85,4 +85,12 @@ public class ServiceController : ControllerBase
         var services = await _serviceService.GetAllTreatmentServices();
         return Ok(services);
     }
+
+    [HttpGet]
+    [Route("count-service-used")]
+    public async Task<ActionResult<BaseResponse<IEnumerable<KeyValuePair<string, int>>>>> CountUseService()
+    {
+        var services = await _serviceService.CountUseService();
+        return Ok(services);
+    }
 }
