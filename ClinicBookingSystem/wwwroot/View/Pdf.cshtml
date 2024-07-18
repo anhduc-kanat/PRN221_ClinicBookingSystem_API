@@ -1,0 +1,95 @@
+﻿@model ClinicBookingSystem_Service.Models.Response.Appointment.GetAppointmentResponse
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="">
+<head>
+    <title>Chi tiết</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .info-section {
+            margin-bottom: 20px;
+        }
+
+        .service-list {
+            margin-top: 20px;
+        }
+
+        .service-item {
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+
+            .service-item:last-child {
+                border-bottom: none;
+            }
+
+        .total-section {
+            text-align: end;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <h3>Phòng khám răng ZouZou</h3>
+            <h3>ĐT: (028)12345678</h3>
+        </div>
+        <div class="header">
+            <h3>Thông tin</h3>
+            <p>Ngày in thông tin: @Model.Date</p>
+        </div>
+        <div class="info-section">
+            <h4>Thông tin bệnh nhân</h4>
+            <ul>
+                <li><strong>Số điện thoại:</strong> @Model.PatientPhoneNumber</li>
+                <li><strong>Họ và tên:</strong> @Model.PatientName</li>
+                <li><strong>Giới tính:</strong> @Model.PatientGender</li>
+                <li><strong>Ngày sinh:</strong> @Model.PatientDateOfBirth</li>
+                <li><strong>Địa chỉ:</strong> @Model.PatientAddress</li>
+            </ul>
+        </div>
+        <div class="service-section">
+            <h4>Dịch vụ đã sử dụng</h4>
+            <div class="service-list">
+                @foreach (var service in Model.AppointmentServices)
+                {
+                    <div class="service-item">
+                        <p><strong>Tên dịch vụ:</strong> @service.ServiceName</p>
+                        <div>
+                            <p><strong>Thanh toán:</strong> @(service.TransactionStatus == ClinicBookingSystem_BusinessObject.Enums.TransactionStatus.Paid ? "Đã thanh toán" : "Chưa thanh toán")</p>
+                            <p><strong>Giá:</strong> @service.ServicePrice.ToString("N0") VND</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="total-section">
+            <p><strong>Tổng tiền cần trả:</strong>@Model.TotalUnPaid VND</p>
+        </div>
+    </div>
+</body>
+
+
+</html>

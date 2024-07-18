@@ -1,11 +1,21 @@
 ﻿using AutoMapper;
 using ClinicBookingSystem_BusinessObject.Entities;
 using ClinicBookingSystem_Repository.IRepositories;
+using ClinicBookingSystem_Service.Common.Utils;
+using ClinicBookingSystem_Service.CustomException;
 using ClinicBookingSystem_Service.IService;
 using ClinicBookingSystem_Service.Models.BaseResponse;
 using ClinicBookingSystem_Service.Models.Enums;
 using ClinicBookingSystem_Service.Models.Request.Result;
+using ClinicBookingSystem_Service.Models.Response.Appointment;
+using ClinicBookingSystem_Service.Models.Response.Pdf;
 using ClinicBookingSystem_Service.Models.Response.Result;
+using iText.Html2pdf;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.IO;
+using System.Globalization;
 
 namespace ClinicBookingSystem_Service.Service;
 
@@ -13,10 +23,17 @@ public class ResultService : IResultService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
-    public ResultService(IUnitOfWork unitOfWork, IMapper mapper)
+    private readonly IWebHostEnvironment _hostingEnvironment;
+    private readonly RazorViewToStringRenderer _razorRenderer;
+
+    public ResultService(IUnitOfWork unitOfWork, IMapper mapper, IWebHostEnvironment hostingEnvironment
+        , RazorViewToStringRenderer razorRenderer
+        )
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _hostingEnvironment = hostingEnvironment;
+        _razorRenderer = razorRenderer;
     }
     //Get all results
     public async Task<BaseResponse<IEnumerable<GetResultResponse>>> GetAllResult()
@@ -60,5 +77,7 @@ public class ResultService : IResultService
         return new BaseResponse<DeleteResultResponse>("Delete result successfully", StatusCodeEnum.OK_200,
             _mapper.Map<DeleteResultResponse>(result));
     }
+
     
+
 }
