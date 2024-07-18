@@ -63,7 +63,7 @@ namespace ClinicBookingSystem_Service.Service
                     PhoneNumber = user.PhoneNumber,
                     Subject = "Create account successfully at DuckClinic",
                     Title = "Welcome To DuckClinic",
-                    ViewUrl = "./View/NotificationEmailTemplate.cshtml"
+                    ViewUrl = "./wwwroot/View/NotificationEmailTemplate.cshtml"
                 });
                 return new BaseResponse<CreateStaffResponse>("Create Staff Successfully!", StatusCodeEnum.Created_201);
             }
