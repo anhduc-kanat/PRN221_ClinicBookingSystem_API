@@ -46,6 +46,14 @@ public class RazorViewToStringRenderer
         return result;
     }
 
+    public async Task<string> RenderRazorViewToStringAsync<TModel>(string viewPath, TModel model)
+    {
+        _logger.LogInformation(viewPath);
+        string templateContent = await File.ReadAllTextAsync(viewPath);
+        string result = await _engine.CompileRenderStringAsync(viewPath, templateContent, model);
+        return result;
+    }
+
 
 
 
