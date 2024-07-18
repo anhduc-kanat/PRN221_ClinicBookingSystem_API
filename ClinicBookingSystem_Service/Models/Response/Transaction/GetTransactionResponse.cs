@@ -7,6 +7,7 @@ namespace ClinicBookingSystem_Service.Models.Response.Transaction;
 
 public class GetTransactionResponse
 {
+    public int Id { get; set; }
     public TransactionStatus Status { get; set; }
     public long Amount { get; set; }
     public string BankCode { get; set; }

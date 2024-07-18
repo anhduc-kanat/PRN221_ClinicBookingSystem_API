@@ -66,6 +66,7 @@ public class PaymentTimeOutJob : IJob
 
                     //Transaction
                     transaction.Status = TransactionStatus.Overdue;
+                    transaction.IsActive = false;
                     transaction.IsPay = false;
                     break;
             }
