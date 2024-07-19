@@ -70,6 +70,15 @@ public class TransactionController : ControllerBase
         return Ok(await _transactionService.GetAllTransactionByUserId(id));
     }
 
+<<<<<<< HEAD
+    [HttpGet]
+    [Route("statistic")]
+    public async Task<ActionResult<BaseResponse<List<Dictionary<int, long?>>>>> GetTransactionsStatistic()
+    {
+        return Ok(await _transactionService.GetStatisticOfTransaction());
+    }
+
+=======
     /// <summary>
     /// Lấy tất cả transaction theo ngày
     /// </summary>
@@ -81,4 +90,5 @@ public class TransactionController : ControllerBase
     {
         return Ok(await _transactionService.GetAllTransactionByDate(date));
     }
+>>>>>>> 4b3a626216b7193f60aeaaa5044b2bf850cddae1
 }
