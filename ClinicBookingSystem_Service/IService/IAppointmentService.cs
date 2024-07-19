@@ -44,4 +44,7 @@ public interface IAppointmentService
     Task<BaseResponse<IEnumerable<GetAppointmentByMeetingDayForAjaxResponse>>> GetAppointmentByMeetingDayForAjax();
 
     Task<BaseResponse<DeleteAppointmentServiceResponse>> DeleteServiceInAppointment(int appBusinessId);
+
+    Task<BaseResponse<CountAppointment>> CountAppointment(DateTime date, int type);
+
 }

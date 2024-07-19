@@ -20,5 +20,9 @@ namespace ClinicBookingSystem_Service.IService
         public Task<BaseResponse<CreateServiceResponse>> CreateService(CreateServiceRequest request);
         public Task<BaseResponse<DeleteServiceResponse>> DeleteService(int id);
         public Task<BaseResponse<UpdateServiceResponse>> UpdateService(int id, UpdateServiceRequest request);
+
+        Task<BaseResponse<IEnumerable<KeyValuePair<string, int>>>> CountUseService();
+
+
     }
 }

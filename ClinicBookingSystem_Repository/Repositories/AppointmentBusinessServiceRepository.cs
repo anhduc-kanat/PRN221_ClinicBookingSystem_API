@@ -12,6 +12,9 @@ public class AppointmentBusinessServiceRepository : BaseRepository<AppointmentBu
     {
         _appointmentBusinessServiceDAO = appointmentBusinessServiceDAO;
     }
+
+
+
     public async Task<IEnumerable<AppointmentBusinessService>> GetAppointmentBusinessServiceByAppointmentId(int appointmentId)
     {
         return await _appointmentBusinessServiceDAO.GetAppointmentBusinessServiceByAppointmentId(appointmentId);
@@ -29,5 +32,10 @@ public class AppointmentBusinessServiceRepository : BaseRepository<AppointmentBu
     public async Task<IEnumerable<AppointmentBusinessService>> GetUnPaidAppointmentBusinessServiceByAppointmentId(int appointmentId)
     {
 return await _appointmentBusinessServiceDAO.GetUnPaidAppointmentBusinessServiceByAppointmentId(appointmentId);
+    }
+
+    public Task<IEnumerable<KeyValuePair<string, int>>> CountUseService()
+    {
+        return _appointmentBusinessServiceDAO.CountUseService();
     }
 }

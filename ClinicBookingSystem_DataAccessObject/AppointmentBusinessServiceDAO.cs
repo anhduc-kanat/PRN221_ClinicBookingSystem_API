@@ -1,6 +1,8 @@
 ﻿using System.Collections;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using ClinicBookingSystem_BusinessObject.Entities;
+using ClinicBookingSystem_BusinessObject.Enums;
 using ClinicBookingSystem_DataAccessObject.BaseDAO;
 using ClinicBookingSystem_DataAcessObject.DBContext;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +51,17 @@ public class AppointmentBusinessServiceDAO : BaseDAO<AppointmentBusinessService>
             .Where(p => p.IsPaid == false)
             .Where(p => p.Appointment.IsFullyPaid == false || p.Appointment.IsFullyPaid == null)
             .ToListAsync();
+    }
+
+    public async Task<IEnumerable<KeyValuePair<string, int>>> CountUseService()
+    {
+        var result = await GetQueryableAsync()
+            .Where(a => a.IsPaid == true && a.ServiceType == ServiceType.Treatment)
+            .GroupBy(a => a.ServiceName)
+            .Select(g => new KeyValuePair<string, int>(g.Key, g.Count()))
+            .ToListAsync();
+
+        return result;
     }
 
 

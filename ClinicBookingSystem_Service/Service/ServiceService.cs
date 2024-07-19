@@ -16,7 +16,7 @@ using ClinicBookingSystem_BusinessObject.Enums;
 
 namespace ClinicBookingSystem_Service.Service
 {
-    public class ServiceService:IServiceService
+    public class ServiceService : IServiceService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -105,6 +105,12 @@ namespace ClinicBookingSystem_Service.Service
             await _unitOfWork.SaveChangesAsync();
             var result = _mapper.Map<UpdateServiceResponse>(existService);
             return new BaseResponse<UpdateServiceResponse>("Update successfully", StatusCodeEnum.OK_200, result);
+        }
+
+        public async Task<BaseResponse<IEnumerable<KeyValuePair<string, int>>>> CountUseService()
+        {
+            var result = await _unitOfWork.AppointmentBusinessServiceRepository.CountUseService();
+            return new BaseResponse<IEnumerable<KeyValuePair<string, int>>>("Update successfully", StatusCodeEnum.OK_200, result);
         }
     }
 }

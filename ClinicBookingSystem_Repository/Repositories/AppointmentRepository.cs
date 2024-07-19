@@ -2,6 +2,7 @@
 using ClinicBookingSystem_DataAccessObject;
 using ClinicBookingSystem_Repository.BaseRepositories;
 using ClinicBookingSystem_Repository.IRepositories;
+using System.Reflection.Metadata.Ecma335;
 
 namespace ClinicBookingSystem_Repository.Repositories;
 
@@ -59,5 +60,10 @@ public class AppointmentRepository : BaseRepository<Appointment>, IAppointmentRe
     public async Task<Appointment> GetAppointmentIfExistTreatmentMeeting(int appointmentId)
     {
         return await _appointmentDAO.GetAppointmentIfExistTreatmentMeeting(appointmentId);
+    }
+
+    public async Task<IEnumerable<Appointment>> CountAppointment(DateTime date, int type)
+    {
+        return await _appointmentDAO.CountAppointment(date, type);
     }
 }

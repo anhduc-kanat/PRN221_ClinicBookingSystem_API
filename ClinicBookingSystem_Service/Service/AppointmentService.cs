@@ -496,4 +496,16 @@ public class AppointmentService : IAppointmentService
         }
         return new BaseResponse<DeleteAppointmentServiceResponse>("Service was pay can not delete",StatusCodeEnum.BadRequest_400);
     }
+
+    public async Task<BaseResponse<CountAppointment>> CountAppointment(DateTime date, int type)
+    {
+        var appointments = await _unitOfWork.AppointmentRepository.CountAppointment(date, type);
+        int statistic = appointments.Count();
+        CountAppointment count = new CountAppointment
+        {
+            Statistic = statistic,
+        };
+        return new BaseResponse<CountAppointment>("Count successfully", StatusCodeEnum.OK_200, count);
+
+    }
 }
