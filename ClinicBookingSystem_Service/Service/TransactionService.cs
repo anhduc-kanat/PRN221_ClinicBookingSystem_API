@@ -33,7 +33,7 @@ public class TransactionService : ITransactionService
     //get transaction by id
     public async Task<BaseResponse<GetTransactionResponse>> GetTransactionById(int id)
     {
-        Transaction transaction = await _unitOfWork.TransactionRepository.GetByIdAsync(id);
+        Transaction transaction = await _unitOfWork.TransactionRepository.GetTransactionByTransactionId(id);
         var result = _mapper.Map<GetTransactionResponse>(transaction);
         return new BaseResponse<GetTransactionResponse>("Get transaction by id successfully", StatusCodeEnum.OK_200, result);
     }
@@ -60,7 +60,7 @@ public class TransactionService : ITransactionService
     //get all transactions
     public async Task<BaseResponse<IEnumerable<GetTransactionResponse>>> GetAllTransaction()
     {
-        IEnumerable<Transaction> transactions = await _unitOfWork.TransactionRepository.GetAllAsync();
+        IEnumerable<Transaction> transactions = await _unitOfWork.TransactionRepository.GetAllTransaction();
         var result = _mapper.Map<IEnumerable<GetTransactionResponse>>(transactions);
         return new BaseResponse<IEnumerable<GetTransactionResponse>>("Get all transaction sucessfully", StatusCodeEnum.OK_200, result);
     }
@@ -74,6 +74,7 @@ public class TransactionService : ITransactionService
         var result = _mapper.Map< IEnumerable <GetTransactionResponse>>(transactions);
         return new BaseResponse<IEnumerable<GetTransactionResponse>>("Get all transaction successfully", StatusCodeEnum.OK_200, result);
     }
+<<<<<<< HEAD
 
     public async Task<BaseResponse<List<Dictionary<int, long?>>>> GetStatisticOfTransaction()
     {
@@ -120,4 +121,14 @@ public class TransactionService : ITransactionService
         return new BaseResponse<List<Dictionary<int, long?>>>("Get all transaction successfully", StatusCodeEnum.OK_200, result);
     }
 
+=======
+    
+    public async Task<BaseResponse<IEnumerable<GetTransactionResponse>>> GetAllTransactionByDate(DateOnly dateOnly)
+    {
+        DateTime date = new DateTime(dateOnly.Year, dateOnly.Month, dateOnly.Day);
+        IEnumerable<Transaction> transactions = await _unitOfWork.TransactionRepository.GetTransactionByDate(date);
+        var result = _mapper.Map< IEnumerable <GetTransactionResponse>>(transactions);
+        return new BaseResponse<IEnumerable<GetTransactionResponse>>("Get all transaction successfully", StatusCodeEnum.OK_200, result);
+    }
+>>>>>>> 4b3a626216b7193f60aeaaa5044b2bf850cddae1
 }
