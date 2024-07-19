@@ -74,7 +74,6 @@ public class TransactionService : ITransactionService
         var result = _mapper.Map< IEnumerable <GetTransactionResponse>>(transactions);
         return new BaseResponse<IEnumerable<GetTransactionResponse>>("Get all transaction successfully", StatusCodeEnum.OK_200, result);
     }
-<<<<<<< HEAD
 
     public async Task<BaseResponse<List<Dictionary<int, long?>>>> GetStatisticOfTransaction()
     {
@@ -121,7 +120,6 @@ public class TransactionService : ITransactionService
         return new BaseResponse<List<Dictionary<int, long?>>>("Get all transaction successfully", StatusCodeEnum.OK_200, result);
     }
 
-=======
     
     public async Task<BaseResponse<IEnumerable<GetTransactionResponse>>> GetAllTransactionByDate(DateOnly dateOnly)
     {
@@ -130,5 +128,4 @@ public class TransactionService : ITransactionService
         var result = _mapper.Map< IEnumerable <GetTransactionResponse>>(transactions);
         return new BaseResponse<IEnumerable<GetTransactionResponse>>("Get all transaction successfully", StatusCodeEnum.OK_200, result);
     }
->>>>>>> 4b3a626216b7193f60aeaaa5044b2bf850cddae1
 }
