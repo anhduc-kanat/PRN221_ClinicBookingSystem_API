@@ -9,5 +9,6 @@ public interface ITransactionRepository : IBaseRepository<Transaction>
     Task<IEnumerable<Transaction>> GetListTransactionByAppointmentId(int appointmentId);
     Task<Transaction> GetTransactionByTransactionId(int transactionId);
     Task<IEnumerable<Transaction>> GetListTransactionByUserId(int userId);
-
+    Task<IEnumerable<Transaction>> GetAllTransaction();
+    Task<IEnumerable<Transaction>> GetTransactionByDate(DateTime date);
 }

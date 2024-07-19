@@ -32,4 +32,14 @@ public class TransactionRepository : BaseRepository<Transaction>, ITransactionRe
         return await _transactionDAO.GetTransactionByUser(userId);
 
     }
+
+    public async Task<IEnumerable<Transaction>> GetAllTransaction()
+    {
+        return await _transactionDAO.GetAllTransaction();
+    }
+
+    public async Task<IEnumerable<Transaction>> GetTransactionByDate(DateTime date)
+    {
+        return await _transactionDAO.GetTransactionByDate(date);
+    }
 }

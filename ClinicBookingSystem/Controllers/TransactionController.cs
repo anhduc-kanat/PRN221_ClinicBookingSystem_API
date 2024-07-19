@@ -1,4 +1,4 @@
-﻿﻿using ClinicBookingSystem_Service.IService;
+﻿using ClinicBookingSystem_Service.IService;
 using ClinicBookingSystem_Service.Models.BaseResponse;
 using ClinicBookingSystem_Service.Models.Pagination;
 using ClinicBookingSystem_Service.Models.Request.Transaction;
@@ -17,6 +17,10 @@ public class TransactionController : ControllerBase
         _transactionService = transactionService;
     }
     //get all transactions
+    /// <summary>
+    /// Lấy tất cả transactions
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     [Route("get-all-transaction")]
     public async Task<ActionResult<BaseResponse<IEnumerable<GetTransactionResponse>>>> GetTransactions()
@@ -24,6 +28,13 @@ public class TransactionController : ControllerBase
         return Ok(await _transactionService.GetAllTransaction());
     }
     //get transaction by id
+    /// <summary>
+    /// Lấy transaction theo id
+    /// </summary>
+    /// <param name="id">
+    /// Id của transaction, truyền theo param
+    /// </param>
+    /// <returns></returns>
     [HttpGet]
     [Route("get-transaction-by-id/{id}")]
     public async Task<ActionResult<BaseResponse<GetTransactionResponse>>> GetTransactionById(int id)
@@ -59,4 +70,15 @@ public class TransactionController : ControllerBase
         return Ok(await _transactionService.GetAllTransactionByUserId(id));
     }
 
+    /// <summary>
+    /// Lấy tất cả transaction theo ngày
+    /// </summary>
+    /// <param name="date"></param>
+    /// <returns></returns>
+    [HttpGet]
+    [Route("get-transaction-by-date")]
+    public async Task<ActionResult<BaseResponse<IEnumerable<GetTransactionResponse>>>> GetTransactionByDate([FromQuery] DateOnly date)
+    {
+        return Ok(await _transactionService.GetAllTransactionByDate(date));
+    }
 }

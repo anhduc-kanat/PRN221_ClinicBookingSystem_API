@@ -28,10 +28,10 @@ public class NoteService : INoteService
             throw new CoreException("Appointment Business Service not found", StatusCodeEnum.BadRequest_400);
         
         var dentist = await _unitOfWork.DentistRepository.GetDentistById(dentistId);
-        if (appointmentBusinessService.Meetings.Any(meeting => meeting.DentistId != dentist.Id))
+        /*if (appointmentBusinessService.Meetings.Any(meeting => meeting.DentistId != dentist.Id))
         {
             throw new CoreException("Dentist is not in the meeting", StatusCodeEnum.BadRequest_400);
-        }
+        }*/
         
         Note note = _mapper.Map<Note>(request);
         note.DentistId = dentistId;

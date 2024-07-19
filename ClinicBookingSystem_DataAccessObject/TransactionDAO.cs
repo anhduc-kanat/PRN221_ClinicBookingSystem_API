@@ -49,4 +49,19 @@ public class TransactionDAO : BaseDAO<Transaction>
             )
             .ToList();
     }
+
+    public async Task<IEnumerable<Transaction>> GetAllTransaction()
+    {
+        return await GetQueryableAsync()
+            .Include(p => p.Appointment)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Transaction>> GetTransactionByDate(DateTime date)
+    {
+        return await GetQueryableAsync()
+            .Include(p => p.Appointment)
+            .Where(p => p.PayDate.Value.Date == date.Date)
+            .ToListAsync();
+    }
 }
