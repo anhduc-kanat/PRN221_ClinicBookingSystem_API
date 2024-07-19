@@ -18,5 +18,5 @@ public interface ITransactionService
     Task<BaseResponse<IEnumerable<GetTransactionResponse>>> GetAllTransaction();
     Task<BaseResponse<IEnumerable<GetTransactionResponse>>> GetAllTransactionByUserId(int userId);
 
-
+    Task<BaseResponse<List< Dictionary<int, long?>>>> GetStatisticOfTransaction();
 }

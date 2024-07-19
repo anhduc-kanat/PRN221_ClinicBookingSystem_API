@@ -59,4 +59,11 @@ public class TransactionController : ControllerBase
         return Ok(await _transactionService.GetAllTransactionByUserId(id));
     }
 
+    [HttpGet]
+    [Route("statistic")]
+    public async Task<ActionResult<BaseResponse<List<Dictionary<int, long?>>>>> GetTransactionsStatistic()
+    {
+        return Ok(await _transactionService.GetStatisticOfTransaction());
+    }
+
 }
