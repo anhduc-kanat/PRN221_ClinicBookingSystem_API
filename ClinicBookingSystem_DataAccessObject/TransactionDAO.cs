@@ -50,9 +50,7 @@ public class TransactionDAO : BaseDAO<Transaction>
             .ToList();
     }
 
-<<<<<<< HEAD
 
-=======
     public async Task<IEnumerable<Transaction>> GetAllTransaction()
     {
         return await GetQueryableAsync()
@@ -67,5 +65,4 @@ public class TransactionDAO : BaseDAO<Transaction>
             .Where(p => p.PayDate.Value.Date == date.Date)
             .ToListAsync();
     }
->>>>>>> 4b3a626216b7193f60aeaaa5044b2bf850cddae1
 }
